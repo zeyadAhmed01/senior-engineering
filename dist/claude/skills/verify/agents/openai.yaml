@@ -1,5 +1,0 @@
-interface:
-  display_name: "Verify"
-  short_description: "Test completion claims against fresh evidence"
-  default_prompt: "Use $verify to check these claims against current evidence."
-

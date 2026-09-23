@@ -1,6 +1,6 @@
 ---
 name: engineer
-description: Route and execute software engineering work with proportional rigor. Use for features, bugs, bounded changes, investigations, architecture decisions, refactors, migrations, or implementation requests that need repository-aware planning, testing, and verification.
+description: Primary workflow for repository engineering from bug investigation through implementation and verification. Also use for features, bounded changes, refactors, migrations, and architecture. Use when a code task asks to diagnose a suspected cause and make a change; coordinate the full engineering lifecycle with repository evidence and risk-proportional checks.
 license: MIT
 ---
 
@@ -30,7 +30,11 @@ Read [repository discovery](references/repository-discovery.md) for an unfamilia
 - Architecture decision: read [architecture workflow](references/architecture-workflow.md).
 - Investigation-only request: use the relevant workflow through diagnosis, then stop without implementation.
 
+Before implementing a feature that materially changes a user-facing flow, interaction, information hierarchy, or visual system, read the feature workflow and its linked design workflow. Capture the material product and visual decisions in a concise working Design Contract before editing; keep unverified assumptions explicit.
+
 For medium or high-risk work, read [planning](references/planning.md). For implementation, testing, and proportional checks, read [implementation and testing](references/implementation-and-testing.md).
+
+For HIGH-risk bug fixes involving authentication, money, data integrity, security, destructive state, or concurrency, a request to skip investigation does not waive a safe local causal check. Before editing, run the smallest available check against the untouched code; if none exists, add a focused reproducer and run it first. If that cannot be done safely, stop before implementation and explain the blocker. Then verify the correction at the affected state boundary.
 
 ## Preserve authority
 

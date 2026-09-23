@@ -11,4 +11,4 @@ Use `refine` when working through this plugin. It preserves the same essential c
 - no execution of the refined task;
 - output only the refined prompt.
 
-No destructive migration is needed. Existing prompts that explicitly name `$prompt-refiner` can continue to use it. New cross-runtime documentation should prefer the plugin's namespaced `refine` skill. Remove the old skill only if the user later chooses to consolidate and has verified all callers.
+No destructive migration is needed. Existing prompts that explicitly name `$prompt-refiner` can continue to use it. In Codex, use the plugin's namespaced `$senior-engineering:refine` skill to avoid a duplicate skill name. Remove the old skill only if the user later chooses to consolidate and has verified all callers.

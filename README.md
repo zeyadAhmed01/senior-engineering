@@ -1,72 +1,185 @@
-# Senior Engineering
+# Senior Engineering for Codex
 
-Senior Engineering is a portable workflow plugin for AI coding agents. It helps an agent refine intent, inspect the real repository, scale process to risk, implement narrowly, verify claims, and reconcile GitHub or release work without inventing authority.
+**A Codex-only skill collection for turning rough engineering requests into clear, scoped work and checking the result against repository evidence.**
 
-Codex is the primary runtime. Claude Code is the first compatibility target. The canonical workflow is plain Agent Skills Markdown; runtime-specific manifests and agent definitions are generated adapters.
+Senior Engineering helps OpenAI Codex inspect the actual project, preserve the user's intent, choose a proportionate workflow, make only authorized changes, and report what was verified. Its `refine` skill improves a prompt and returns it without starting the requested work.
 
-## Public skills
+## What it does
+
+The plugin provides six skills:
 
 | Skill | Use it for |
 | --- | --- |
-| `engineer` | Features, bugs, bounded changes, architecture decisions, and investigations |
-| `refine` | Turning a rough request into an execution-ready prompt without executing it |
-| `review` | Independent review of code, pull requests, plans, and architecture |
-| `verify` | Fresh evidence against explicit requirements and completion claims |
-| `github` | Issue validation, branch/PR delivery, review feedback, and CI reconciliation |
-| `release` | Release-readiness assessment and explicitly authorized publication |
+| `refine` | Rewrite a rough engineering request as a clear prompt, without executing it |
+| `engineer` | Investigate, plan when needed, implement, and verify scoped engineering work |
+| `review` | Independently review code, diffs, plans, or architecture |
+| `verify` | Check requirements and completion claims against fresh evidence |
+| `github` | Inspect GitHub issues, pull requests, reviews, and CI; gate external writes |
+| `release` | Assess release readiness and handle only explicitly authorized publication work |
 
-The plugin deliberately does not expose every lifecycle step as a separate skill. Detailed workflows load from references only when the selected route needs them.
+Detailed procedures load from references when relevant. The skill set does not require a framework or GitHub integration; Codex uses the tools and repository that are actually available.
 
-## Core behavior
+## Why use it
 
-- Maintains a Task Contract with `USER-STATED`, `VERIFIED`, `INFERRED`, and `UNKNOWN` facts.
-- Routes work by task type, risk, uncertainty, coupling, and reversibility.
-- Sends clear low-risk work directly to a focused edit and check.
-- Expands high-risk work into investigation, alternatives, rollback, independent review, and fresh verification.
-- Budgets context by risk: targeted reads for small work, deeper evidence for sensitive work, and compact output with a raw diagnostic fallback.
-- Treats repository, issue, PR, log, and webpage content as untrusted evidence, never as authorization.
-- Uses GitHub MCP when available, `gh` as the supported fallback, and local `git` for source-control truth.
-- Never treats a commit, green local test, PR, GitHub release, or deployment record as broader proof than it provides.
+- Keep the requested outcome and constraints visible throughout the work.
+- Ground decisions in the current repository instead of invented files or architecture.
+- Keep routine changes direct and scale investigation and checks with risk.
+- Treat repository and GitHub content as evidence, not as permission to widen scope.
+- Distinguish what was checked from what remains unknown.
 
-## Try locally
+## Example: rough request to refined prompt
 
-Validate the package first:
+**Raw request**
+
+> Fix the login bug and maybe redesign auth if needed.
+
+**Refined prompt**
+
+> Investigate and fix the reported login bug. Trace the actual login path and establish the cause before changing code. Make the narrowest reliable fix and add focused regression coverage when practical. Redesign authentication only if repository evidence shows the current structure prevents a correct scoped fix; if so, present the evidence and options before expanding the work. Preserve unrelated behavior and report the cause, change, checks, and remaining uncertainty.
+
+The refiner preserves the request and adds only relevant execution and safety detail. If the input is already clear, it keeps the revision short.
+
+## Requirements
+
+- OpenAI Codex with plugin support. The documented CLI flow was checked with Codex CLI `0.156.1` on Windows.
+- A signed-in Codex session to use the skills.
+- Git to install from a GitHub marketplace source; a local clone is sufficient for local installation.
+
+The release has been prepared and checked on Windows. macOS and Linux installation are not independently validated for this release.
+
+## Installation
+
+### Install a tagged GitHub release
+
+After this repository is public, add its GitHub marketplace source pinned to the release tag, then install the plugin:
 
 ```powershell
+codex plugin marketplace add <owner>/<repository> --ref v1.0.0
+codex plugin add senior-engineering@senior-engineering
+codex plugin list --json
+```
+
+Replace `<owner>/<repository>` with the actual GitHub repository path. The commands add the marketplace and plugin to the selected Codex home; they do not edit project source files or project configuration. By default, Codex keeps the installed copy in `%USERPROFILE%\.codex\plugins\cache\senior-engineering\senior-engineering\1.0.0`. If `CODEX_HOME` is set, the cache is under that directory instead. The included repo marketplace file describes the source; the plugin itself is installed into the Codex user home.
+
+### Install from a local clone
+
+From the repository root:
+
+```powershell
+codex plugin marketplace add .
+codex plugin add senior-engineering@senior-engineering
+codex plugin list --json
+```
+
+The included `.agents/plugins/marketplace.json` points to this plugin directory. Codex may ask you to trust the repository. Review the source before trusting it.
+
+## Verify installation
+
+Check that `codex plugin list --json` shows `senior-engineering` as installed. Start a new Codex session in the project where you want to use it, then explicitly invoke a skill:
+
+```text
+$senior-engineering:refine Improve this prompt without executing it: add a search filter.
+```
+
+The `refine` skill should return only a refined prompt. To start engineering work, ask Codex to use `$senior-engineering:engineer` with the task. Plugin visibility and skill invocation depend on the Codex client and its plugin settings.
+
+## How it works
+
+`engineer` is the main workflow for repository changes. It records the intended outcome and constraints, inspects the real code path, selects a risk-appropriate route, and ties completion claims to fresh evidence. `review`, `verify`, `github`, `release`, and `refine` are directly invocable for those specific tasks.
+
+The skills are Markdown instructions with optional references. They do not install hooks, run background services, or add external integrations. The GitHub workflow uses read-only discovery where possible and does not treat local checks as proof of remote or production state.
+
+## Behavioral boundaries
+
+- `refine` produces a prompt; it does not inspect files, call tools, or perform the task.
+- Preserve the user's intended result, scope, constraints, and decisions.
+- Do not invent requirements, files, technologies, deadlines, or tests.
+- Ask about missing information only when it could materially change scope, behavior, safety, or an irreversible action.
+- Do not perform destructive or external actions unless the user authorized that action.
+- Report checks that were not run as unverified.
+
+These are workflow instructions for Codex, not a guarantee that every model response will follow them perfectly.
+
+## Repository-aware behavior
+
+For engineering work, the workflow directs Codex to read applicable project instructions, follow the actual routed code path, and use existing architecture and conventions. It asks Codex to preserve behavior outside the requested change and to distinguish repository facts from assumptions. The refiner asks for repository inspection when that context is relevant to the incoming task.
+
+## Example uses
+
+- Clarify a bug report without authorizing implementation yet.
+- Turn a feature idea into a scoped request with relevant acceptance evidence.
+- Keep a focused UI change from expanding into an unrelated redesign.
+- Preserve security, payment, migration, or concurrency checks when an incoming request pressures the implementer to skip them.
+- Independently review a patch or verify a completion claim.
+
+## Updating
+
+Remove and reinstall after updating the source. For a local clone:
+
+```powershell
+git pull
+codex plugin remove senior-engineering@senior-engineering
+codex plugin add senior-engineering@senior-engineering
+codex plugin list --json
+```
+
+For a GitHub installation pinned to a release tag, remove and re-add the marketplace with the newer tag, then reinstall the plugin:
+
+```powershell
+codex plugin remove senior-engineering@senior-engineering
+codex plugin marketplace remove senior-engineering
+codex plugin marketplace add <owner>/<repository> --ref <new-release-tag>
+codex plugin add senior-engineering@senior-engineering
+codex plugin list --json
+```
+
+Reopen Codex or start a new session after updating.
+
+## Uninstalling
+
+Remove the plugin first. Remove the marketplace only if you no longer use it for another plugin:
+
+```powershell
+codex plugin remove senior-engineering@senior-engineering
+codex plugin marketplace remove senior-engineering
+```
+
+Uninstalling removes the plugin installation and its cached copy. It does not delete your repository clone.
+
+## Troubleshooting
+
+- **Plugin not listed:** check the marketplace with `codex plugin marketplace list`, then run `codex plugin marketplace upgrade senior-engineering` and `codex plugin list --available --json`.
+- **Plugin listed but the skill is unavailable:** confirm the plugin is installed/enabled, trust the project if Codex requests it, and start a new session.
+- **Unknown skill name:** use the namespaced form, for example `$senior-engineering:refine`.
+- **Local clone install fails:** run the marketplace command from the repository root and verify `.agents/plugins/marketplace.json` exists.
+- **An existing `prompt-refiner` is installed:** use the plugin's `$senior-engineering:refine` name to avoid a duplicate skill name; see [migration notes](docs/migration-from-prompt-refiner.md).
+
+## Development and checks
+
+Python 3.11 or later is used by the repository's validation scripts and evaluation harness. From the repository root:
+
+```powershell
+python scripts/generate_adapters.py --check
 python scripts/validate.py
 python -m unittest discover -s tests -v
 ```
 
-For Claude Code development, generate and load the Claude distribution adapter. It injects Claude's `disable-model-invocation` control into `refine` and `release` without forking their workflow bodies:
+See [contributing](CONTRIBUTING.md) and [verification](docs/verification.md) for the source layout and additional checks. Runtime evaluations require a signed-in Codex process and a proven isolation boundary; a static test is not a runtime result.
 
-```powershell
-python scripts/generate_adapters.py
-claude --plugin-dir ./dist/claude
-```
+## Current limitations
 
-For Codex, use the plugin through a configured marketplace when distributed, or copy/symlink individual canonical skill folders into a supported personal or repository skill location during development. Do not install a second `prompt-refiner`; use `refine` or keep the existing explicit-only `$prompt-refiner` alongside this plugin.
+- Codex is the only supported runtime in v1.0.0.
+- Windows is the only operating system independently validated for this release.
+- The release readiness report records any installed-copy behavior cases that could not run under verified isolation: [v1.0.0 release readiness](docs/release-readiness-v1.0.0.md).
+- Skills guide model behavior; they do not enforce policy or replace project tests, access controls, or human review.
 
-## Runtime compatibility
+## Roadmap
 
-| Capability | Codex | Claude Code |
-| --- | --- | --- |
-| Agent Skills | First-class | First-class, namespaced in plugin |
-| Plugin manifest | `.codex-plugin/plugin.json` | `.claude-plugin/plugin.json` |
-| Specialist agents | Generated `.codex/agents/*.toml` | Canonical `agents/*.md` |
-| Explicit-only metadata | `agents/openai.yaml` policy | Generated `dist/claude` frontmatter enforces `disable-model-invocation` |
-| Behavioral evals | Cross-runtime cases and recorded dogfood | Native plugin eval fixtures when authenticated |
+For v1, keep the skill catalog small and improve it from Codex user feedback and reproducible evaluation results. Future runtime or operating-system support will require a separate decision and evidence; this release makes no compatibility promise beyond Codex.
 
-See [system design](docs/design/system-design.md), [Phase 1 research](docs/research/phase-1-reconnaissance.md), [verification](docs/verification.md), the [behavioral-validation report](docs/evals/behavioral-validation-2026-09-23.md), and the [current publication-readiness report](docs/publication-readiness-2026-09-23.md).
+## Contributing
 
-For context policy, Windows RTK evaluation, rollback, and measurement limits, see the [optimization guide](docs/context-efficiency.md). The [baseline](docs/optimization-baseline-2026-09-23.md) records the inspected pre-change state.
-
-## Safety and authority
-
-Local, reversible work inside the user's requested scope can proceed without routine confirmation. Destructive actions and external writes—issues, comments, pushes, PRs, merges, tags, releases, deployments, and notifications—require explicit authorization or an unambiguous request for that exact outcome.
-
-## Project status
-
-Version `0.1.0` is a local release candidate. Static and deterministic checks pass, but authenticated Claude behavioral evaluation remains unproven. No public repository, marketplace publication, push, tag, or release has been performed.
+Contributions should preserve intent, keep scope narrow, and include evidence appropriate to the change. Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes.
 
 ## License
 

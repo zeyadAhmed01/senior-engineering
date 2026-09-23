@@ -39,20 +39,6 @@ def toml_string(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
-def claude_skill(text: str, explicit_only: bool) -> str:
-    if not explicit_only:
-        return text
-    marker = "disable-model-invocation: true\n"
-    if marker in text:
-        return text
-    if not text.startswith("---\n"):
-        raise ValueError("Claude skill source is missing first-line frontmatter")
-    closing = text.find("\n---\n", 4)
-    if closing == -1:
-        raise ValueError("Claude skill source has unterminated frontmatter")
-    return text[:closing] + "\n" + marker.rstrip("\n") + text[closing:]
-
-
 def expected_files(root: Path = ROOT) -> dict[Path, str]:
     manifest = json.loads((root / "plugin.json").read_text(encoding="utf-8"))
     identity = {field: manifest[field] for field in PORTABLE_FIELDS if field in manifest}
@@ -66,12 +52,8 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
         codex_interface["defaultPrompt"] = default_prompts[0] if default_prompts else "Use Senior Engineering."
     codex_manifest["interface"] = codex_interface
 
-    claude_manifest = dict(identity)
-
     files = {
         root / ".codex-plugin" / "plugin.json": json.dumps(codex_manifest, indent=2, ensure_ascii=False) + "\n",
-        root / ".claude-plugin" / "plugin.json": json.dumps(claude_manifest, indent=2, ensure_ascii=False) + "\n",
-        root / "dist" / "claude" / ".claude-plugin" / "plugin.json": json.dumps(claude_manifest, indent=2, ensure_ascii=False) + "\n",
     }
 
     for source in sorted((root / "agents").glob("*.md")):
@@ -88,24 +70,6 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
             'sandbox_mode = "read-only"\n'
             f'developer_instructions = """\n{body}\n"""\n'
         )
-        files[root / "dist" / "claude" / "agents" / source.name] = source.read_text(encoding="utf-8")
-
-    for source in sorted((root / "skills").rglob("*")):
-        if not source.is_file():
-            continue
-        relative = source.relative_to(root / "skills")
-        text = source.read_text(encoding="utf-8")
-        if source.name == "SKILL.md":
-            text = claude_skill(text, relative.parts[0] in {"refine", "release"})
-        files[root / "dist" / "claude" / "skills" / relative] = text
-
-    for source in sorted((root / "evals" / "claude").rglob("*")):
-        if not source.is_file():
-            continue
-        relative = source.relative_to(root / "evals" / "claude")
-        if relative.parts[0] == "results":
-            continue
-        files[root / "dist" / "claude" / "evals" / relative] = source.read_text(encoding="utf-8")
 
     return files
 
@@ -113,9 +77,7 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
 def find_orphans(expected: set[Path], root: Path = ROOT) -> list[Path]:
     managed_roots = (
         root / ".codex-plugin",
-        root / ".claude-plugin",
         root / ".codex" / "agents",
-        root / "dist" / "claude",
     )
     return sorted(
         path

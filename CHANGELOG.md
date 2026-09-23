@@ -1,18 +1,16 @@
 # Changelog
 
-All notable changes to this project are documented here.
+This project follows Semantic Versioning. Changes are listed for tagged releases only.
 
-## [Unreleased]
+## [1.0.0] - 2026-09-24
 
-- Expanded behavioral coverage from nine to nineteen cases to include hypothesis handling, production authentication, feature discovery, overengineering, scope pressure, reviewer pressure, ambiguous delivery, and force-push safeguards.
-- Added current Codex routing-smoke, seeded-fixture, and publication-readiness evidence.
+Initial public release for OpenAI Codex.
 
-## [0.1.0] - 2026-09-22
+- Publish six Codex skills for prompt refinement, engineering, review, verification, GitHub work, and release readiness.
+- Keep prompt refinement explicit: return an improved prompt and do not execute it.
+- Add risk-proportional, repository-grounded engineering workflows and evidence-based completion guidance.
+- Package Codex plugin metadata and local/Git marketplace installation instructions.
+- Add 43 Codex behavior contracts (including 14 direct prompt-refinement cases), 11 context-efficiency scenarios, and deterministic repository checks.
+- Document the v1 support boundary: Codex only; Windows validated; other operating systems unverified.
 
-- Added the six-skill public workflow surface.
-- Added Task Contract, risk routing, evidence, authority, and completion rules.
-- Added canonical specialist roles with generated Codex and Claude adapters.
-- Added an Agent Plugins 1.0 portable root manifest and a generated Claude distribution with explicit-only controls.
-- Added GitHub MCP, `gh`, and local `git` capability selection.
-- Added nine cross-runtime eval contracts with matching Claude-native pressure fixtures, static validation, and dogfood reporting.
-- Preserved the installed explicit-only prompt refiner through a documented migration path.
+The release does not claim that model-behavior evaluations passed unless their current installed-copy runs and grading are recorded in the release-readiness report.

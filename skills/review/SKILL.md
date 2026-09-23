@@ -1,6 +1,6 @@
 ---
 name: review
-description: Independently review code changes, pull requests, plans, or architecture for correctness, regressions, security, scope, maintainability, and missing evidence. Use when the user asks for review, critique, assessment, or a fresh second pass without implementation.
+description: Review code changes, plans, architecture, or specific findings for correctness, regressions, security, scope, maintainability, and evidence. Use when asked whether an artifact is correct, safe, or complete, including local patch review.
 license: MIT
 ---
 

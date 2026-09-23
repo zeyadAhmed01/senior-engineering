@@ -11,6 +11,7 @@ This repository is the canonical source for the Senior Engineering workflow plug
 ## Authoritative documentation
 
 - Read `docs/design/system-design.md` before changing public skill boundaries, routing, risk, authority, or evidence rules.
+- Read `docs/design/phase-2-decisions.md` and `docs/design/phase-3-architecture.md` before changing task/testing policy, material-UI design routing, the Design Contract, or GitHub capability safety.
 - Read `docs/research/phase-1-reconnaissance.md` before importing an upstream idea or changing provenance.
 - Read `docs/verification.md` before changing validation or eval expectations.
 
@@ -20,9 +21,9 @@ This repository is the canonical source for the Senior Engineering workflow plug
 - Detailed procedures belong in each skill's `references/` directory.
 - `agents/*.md` is the canonical specialist-role source.
 - `plugin.json` is the canonical manifest metadata.
-- `.codex-plugin/`, `.claude-plugin/`, `.codex/agents/`, and `dist/claude/` are generated adapters. Regenerate them with `python scripts/generate_adapters.py`; do not hand-edit generated files.
-- Unexpected files in generated adapter directories fail generation and must be explicitly removed or relocated; the generator never silently deletes them.
-- `evals/cases.json` is the cross-runtime behavioral contract.
+- `.codex-plugin/` and `.codex/agents/` are generated Codex adapters. Regenerate them with `python scripts/generate_adapters.py`; do not hand-edit generated files.
+- Unexpected files in generated Codex adapter directories fail generation and must be explicitly removed or relocated; the generator never silently deletes them.
+- `evals/cases.json` is the Codex behavior contract.
 
 ## Validation
 
@@ -34,8 +35,8 @@ python scripts/validate.py
 python -m unittest discover -s tests -v
 ```
 
-If the relevant CLI is available, also run `claude plugin validate ./dist/claude` and the Codex plugin validator documented in `docs/verification.md`. Behavioral evals require authenticated runtimes and must report unavailable runs as unproven.
+If available, run the Codex plugin and skill validators documented in `docs/verification.md`. Installed-copy behavioral evals require an authenticated Codex process and verified isolation; report unavailable or unsafe-to-run cases as unproven.
 
 ## Completion
 
-Report changed behavior, exact checks and results, generated adapter status, and any unproven runtime. Do not claim cross-runtime behavior from static validation alone.
+Report changed behavior, exact checks and results, generated Codex adapter status, and any unproven runtime behavior. Do not claim model behavior from static validation alone.

@@ -1,14 +1,16 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "senior-engineering",
-  "version": "0.1.0",
-  "description": "Risk-aware engineering workflows for AI coding agents, from intent through verified delivery.",
+  "version": "1.0.0",
+  "description": "Codex-only engineering workflows for refining prompts, implementing scoped changes, and verifying results.",
   "author": {
     "name": "Senior Engineering Workflow Contributors"
   },
   "license": "MIT",
   "keywords": [
+    "codex",
     "engineering",
+    "prompt-refinement",
     "workflow",
     "code-review",
     "verification",
@@ -18,8 +20,8 @@
     "com.openai": {
       "interface": {
         "displayName": "Senior Engineering",
-        "shortDescription": "Risk-aware workflows from intent to verified delivery.",
-        "longDescription": "A portable senior engineering workflow that classifies work, scales process to risk, preserves authority boundaries, and requires fresh evidence before completion.",
+        "shortDescription": "Codex workflows for clearer prompts and evidence-based engineering.",
+        "longDescription": "A Codex-only skill collection for refining prompts without executing them, inspecting the repository, making scoped engineering changes, and verifying outcomes with risk-appropriate evidence.",
         "developerName": "Senior Engineering Workflow Contributors",
         "category": "Developer Tools",
         "capabilities": [
@@ -28,7 +30,7 @@
           "Write"
         ],
         "defaultPrompt": [
-          "Investigate and fix this bug with evidence.",
+          "Use Senior Engineering to refine this prompt without executing it.",
           "Review this change independently.",
           "Check release readiness without publishing."
         ]

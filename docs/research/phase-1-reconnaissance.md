@@ -1,12 +1,12 @@
 # Phase 1 Reconnaissance
 
-Status: complete  
-Date: 2026-09-22  
-Scope: research and architecture evidence only; no workflow implementation files were created in this phase.
+Status: historical research retained for v1.0.0 provenance
+Date: 2026-09-22
+Scope: research and architecture evidence only; no workflow implementation files were created in this phase. This record is not a runtime support promise.
 
 ## Mission boundary
 
-Build a portable, open-source senior engineering workflow for AI coding agents. Codex is the primary runtime and Claude Code is the first compatibility target. The system must cover intent refinement, task classification, investigation, design, planning, implementation, testing, review, adversarial verification, GitHub delivery, and release without turning every task into the same heavyweight process.
+Build an open-source senior engineering workflow for OpenAI Codex. The system must cover intent refinement, task classification, investigation, design, planning, implementation, testing, review, adversarial verification, GitHub delivery, and release without turning every task into the same heavyweight process.
 
 The source system lives in a dedicated repository outside the unrelated, modified host checkout. No public repository, push, merge, tag, or release is authorized by this work.
 
@@ -33,7 +33,7 @@ Confirmed behavior:
 Migration decision:
 
 - Do not overwrite or silently change the installed `$prompt-refiner`.
-- Preserve it as a compatibility intake tool.
+- Preserve it as an existing Codex intake tool.
 - Build a canonical internal Task Refiner that carries forward its intent-preservation, ambiguity, scope, and non-execution rules.
 - Publish a first-class `refine` skill in the new plugin and document the explicit migration path. Avoid a second installed `prompt-refiner` name that could shadow the existing skill.
 
@@ -51,18 +51,6 @@ Official sources establish these boundaries:
 
 Design consequence: keep the discoverable skill catalog small, put detailed lifecycle modules in references, keep `AGENTS.md` thin, and make GitHub integration optional rather than a hard dependency.
 
-### Claude Code
-
-Official sources establish these boundaries:
-
-- Claude Code uses the same Agent Skills `SKILL.md` standard and adds optional runtime-specific frontmatter.
-- Plugin skills live at `skills/<name>/SKILL.md` and are namespaced by the plugin.
-- A Claude plugin manifest lives at `.claude-plugin/plugin.json`; agents live at the plugin root in `agents/`.
-- `disable-model-invocation: true` makes side-effecting or explicitly timed skills user-only, but it is Claude-specific and must not be required by the portable core.
-- Claude plugin evals support isolated runs, graders, and a no-plugin baseline.
-
-Design consequence: canonical skills use only portable Agent Skills frontmatter. Claude-only invocation controls belong in a generated or documented adapter layer, not in the canonical source.
-
 ### GitHub
 
 Official documentation confirms:
@@ -76,6 +64,16 @@ Official documentation confirms:
 
 Design consequence: use GitHub MCP for structured reads and writes when available, `gh` as the deterministic fallback, and local `git` for source-control truth. External writes remain explicit user-authorized actions.
 
+## Product UX and visual-design research
+
+Product UX references and visual-design inspiration answer different questions. Inspect the product's real workflow, user, states, permissions, and existing design system before borrowing a visual treatment. Prefer real product interfaces such as Mobbin examples for interaction patterns; use visual showcases such as Dribbble only for visual inspiration, with Pinterest as a fallback. User-supplied references and project design rules take precedence over external examples.
+
+The Taste skill v2 at `Leonxlnx/taste-skill@c184364c58658b2f131b4ae8bd3d206cabb3deee` is MIT-licensed at that revision. Its visual-quality guidance is useful selectively, but it explicitly excludes dashboard, table, and multi-step product-flow use. Do not adopt it as a universal product-UI workflow.
+
+UI/UX Pro Max at `nextlevelbuilder/ui-ux-pro-max-skill@dcc40ff5133ef78276117db0cc34e7b83cc8aeba` has a repository MIT license. That does not establish the license or provenance of every indexed recommendation, image, or data record. Inspect the exact file and revision before adapting any such material. This project does not vendor its corpora; use independently implemented general ideas only when an exact source cannot be cleared.
+
+Resolution: keep product-flow and visual-design guidance as conditional internal modules under `engineer`. Use project and user-provided evidence first; use real product examples for interaction and showcase sites for visual direction only. Exact file/revision licensing governs any reuse; when uncertain, do not copy.
+
 ## Upstream repository pins and licensing
 
 | Source | Branch | Commit | License at pin | Strongest contribution |
@@ -83,7 +81,6 @@ Design consequence: use GitHub MCP for structured reads and writes when availabl
 | `owainlewis/blueprint` | `main` | `54c952bad7dea5d40fa7951b4bd831008b567a6b` | MIT | Small lifecycle skeleton, outcome/constraints/proof, independent review |
 | `obra/superpowers` | `main` | `5bf4e78011075bcfc0dc295f0724994cd123ee71` | MIT | Root-cause debugging, fresh verification, behavioral pressure testing |
 | `affaan-m/ECC` | `main` | `bf70150eb2df8070024e5bdf08e4aa08959e2735` | MIT | Context budgeting, iterative retrieval, security review, specialist boundaries |
-| `levnikolaevich/claude-code-skills` | `master` | `d7da390b0d4af4dba9ea2daf5c94ece06bfa14b0` | MIT | Mutation boundaries, evidence states, artifact versus runtime truth |
 | `kevinlin/skills` | `main` | `951dbf8f4a8ffd58036d75d47e47ca12b691c7c3` | MIT | Research-plan-implement loop and intentional compaction |
 | `msitarzewski/agency-agents` | `main` | `053ddbbf392a1688fc7043d81529f47ef2cf86c8` | MIT | Explicit role contracts and minimal-change posture |
 | `github/awesome-copilot` | `main` | `db8d563aefebf9dd569bc72596c4ebd817847534` | MIT | GitHub issue, PR, checks, release, and secret-screening workflows |
@@ -126,36 +123,6 @@ Reject or narrow:
 - Mandatory brainstorming for all work.
 - Mandatory invocation based on tiny relevance probabilities.
 - Fixed agent fan-out or a mandatory full suite for every change.
-
-### Everything Claude Code
-
-Keep:
-
-- Narrow reviewer roles and fresh-context verification.
-- Context budgets and iterative retrieval.
-- Prompt-injection awareness and security review as a distinct concern.
-- Low-context installation and adapter patterns.
-
-Reject or narrow:
-
-- Hundreds of discoverable agents or skills.
-- Generic persona catalogs and framework opinions that override a repository.
-- Blanket test coverage thresholds.
-
-### Claude Code Skills collection
-
-Keep:
-
-- Explicit finish lines and mutation boundaries.
-- Evidence states: pending, proven, cleared, and unproven.
-- Clear separation of artifact readiness, verified behavior, and external authority.
-- Vendor/tool fallback with an honest blocked state.
-- Small portable core with host adapters.
-
-Reject or narrow:
-
-- Duplicated host-specific sources that can drift.
-- Lifecycle steps that always run regardless of task risk.
 
 ### Kevin Lin skills
 
@@ -247,7 +214,7 @@ Reject or narrow:
 | Research before implementation | Blueprint, Superpowers, Kevin Lin, RK | One investigation module with depth selected by risk and uncertainty |
 | Planning | Blueprint, Kevin Lin, RK | Plan only when uncertainty, coupling, or rollback cost warrants it |
 | Testing | Blueprint, Superpowers, ECC | Risk-appropriate test strategy; regression-first for defects and safety-sensitive behavior |
-| Independent review | Blueprint, ECC, Claude skills, Agency Agents, RK | One fresh-context review gate with optional specialist lanes |
+| Independent review | Blueprint, ECC, Agency Agents, RK | One fresh-context review gate with optional specialist lanes |
 | GitHub delivery | Awesome Copilot, GitHub MCP, RK, Agent Skills | One GitHub skill with MCP/CLI/local adapters and explicit mutation gates |
 | Agent orchestration | ECC, Kevin Lin, Agency Agents, Agent Skills | Adaptive delegation only for independent, bounded work; never a fixed fan-out |
 | Release | Awesome Copilot, RK | Inspect repository release convention first; require explicit release authorization |
@@ -255,25 +222,25 @@ Reject or narrow:
 
 ## Resolved contradictions
 
-1. **Rigid lifecycle versus proportional process**  
+1. **Rigid lifecycle versus proportional process**
    Resolution: classify task type, risk, ambiguity, coupling, reversibility, and external effects. Low-risk clear work may go directly to implementation and focused verification. High-risk work expands into investigation, design, plan critique, adversarial review, and rollback checks.
 
-2. **Autonomy versus external mutations**  
+2. **Autonomy versus external mutations**
    Resolution: local reversible work can proceed autonomously within user scope. Issue creation, comments, pushes, PR creation, merges, tags, releases, deployments, and destructive operations require explicit or clearly inherited authorization.
 
-3. **TDD as discipline versus TDD as dogma**  
+3. **TDD as discipline versus TDD as dogma**
    Resolution: require observable acceptance evidence. Prefer red-to-green regression tests for bugs and safety-sensitive changes when feasible. Do not force artificial tests for prose, configuration, or untestable external behavior.
 
-4. **Many specialist skills versus small discovery surface**  
+4. **Many specialist skills versus small discovery surface**
    Resolution: six public skills backed by internal reference modules and four narrow reviewer roles.
 
-5. **Runtime-specific power versus portability**  
-   Resolution: portable Agent Skills are canonical. Codex and Claude manifests/agent definitions are adapters. Runtime-only frontmatter is isolated from canonical skill source.
+5. **Codex packaging versus portable skill structure**
+   Resolution: keep Codex-supported Agent Skills as the source format and generate only the Codex package metadata needed by this project.
 
-6. **MCP-first versus tool independence**  
+6. **MCP-first versus tool independence**
    Resolution: GitHub MCP is preferred for structured operations when available; `gh` and local `git` provide the fallback. Capabilities are detected, never assumed.
 
-7. **Fresh-context independence versus excessive agents**  
+7. **Fresh-context independence versus excessive agents**
    Resolution: fresh-context review is required only where its independence materially improves confidence. Parallel agents are used only for separable questions and within the host's concurrency budget.
 
 ## Proposed final architecture
@@ -335,7 +302,7 @@ Uncertainty can raise the route even when apparent impact is small. Explicit use
 
 - Existing refiner inspected and migration direction recorded: met.
 - Ten upstream repositories inspected at pinned commits: met.
-- Official Codex, Claude Code, and GitHub conventions checked: met.
+- Official Codex and GitHub conventions checked: met.
 - Licensing and provenance constraints recorded: met.
 - Duplicates, contradictions, strongest concepts, and rejected patterns documented: met.
 - Recommended architecture proposed without creating implementation files: met.

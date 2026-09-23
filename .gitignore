@@ -1,6 +1,14 @@
 __pycache__/
 *.py[cod]
+.venv/
+venv/
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 evals/results/
-evals/claude/results/
 *.log
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+*.bak

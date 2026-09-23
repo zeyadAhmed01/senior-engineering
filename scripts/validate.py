@@ -47,6 +47,16 @@ def markdown_links(path: Path) -> list[Path]:
 def validate() -> list[str]:
     errors: list[str] = []
 
+    retired_surfaces = (
+        ROOT / ".claude-plugin",
+        ROOT / "CLAUDE.md",
+        ROOT / "dist" / "claude",
+        ROOT / "evals" / "claude",
+    )
+    for path in retired_surfaces:
+        if path.exists():
+            errors.append(f"Codex-only release must not contain retired compatibility path: {path.relative_to(ROOT)}")
+
     try:
         manifest = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
         for key in ("$schema", "name", "version", "description", "author", "license", "extensions"):
@@ -63,6 +73,12 @@ def validate() -> list[str]:
             errors.append("plugin.json: unexpected plugin name")
         if not re.fullmatch(r"\d+\.\d+\.\d+", str(manifest.get("version", ""))):
             errors.append("plugin.json: version must be strict semver")
+        elif not re.search(
+            rf"^## \[{re.escape(str(manifest['version']))}\] - \d{{4}}-\d{{2}}-\d{{2}}$",
+            (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
+            re.MULTILINE,
+        ):
+            errors.append("CHANGELOG.md: missing a dated entry for the current plugin version")
     except (OSError, json.JSONDecodeError) as error:
         errors.append(f"plugin.json: {error}")
 
@@ -130,11 +146,8 @@ def validate() -> list[str]:
                 errors.append(f"eval {case.get('id')}: prompt, route, and risk are required")
             if not expected.get("must") or not expected.get("must_not"):
                 errors.append(f"eval {case.get('id')}: must and must_not are required")
-            native_case = case.get("native_claude_case")
-            native_root = ROOT / "evals" / "claude" / str(native_case)
-            for relative in ("prompt.md", "graders/criteria.md", "graders/skill-fired.md"):
-                if not native_case or not (native_root / relative).exists():
-                    errors.append(f"eval {case.get('id')}: missing Claude fixture {relative}")
+            if any("claude" in key.lower() for key in case):
+                errors.append(f"eval {case.get('id')}: unsupported platform-specific fixture metadata")
     except (OSError, json.JSONDecodeError) as error:
         errors.append(f"evals/cases.json: {error}")
 

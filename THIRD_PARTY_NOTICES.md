@@ -1,6 +1,6 @@
 # Third-Party Notices and Provenance
 
-Senior Engineering is an original synthesis. It studies patterns from the projects below but does not combine or vendor their repositories. Where an idea influenced the design, the implementation was written anew for this project's architecture and vocabulary.
+Senior Engineering is an original synthesis. It studies patterns from the projects below but does not combine or vendor their repositories. Where an idea influenced the design, the implementation was written anew for this project's architecture and vocabulary. This release supports OpenAI Codex only; a cited source repository name records research provenance and does not imply runtime compatibility or support.
 
 ## MIT-licensed sources studied
 
@@ -13,10 +13,12 @@ Senior Engineering is an original synthesis. It studies patterns from the projec
 | `kevinlin/skills` | `951dbf8f4a8ffd58036d75d47e47ca12b691c7c3` | MIT, Kevin Lin (2026) | Conceptual influence: research-plan-implement and intentional compaction |
 | `msitarzewski/agency-agents` | `053ddbbf392a1688fc7043d81529f47ef2cf86c8` | MIT, AgentLand Contributors (2025) | Conceptual influence: explicit role contracts and minimal change |
 | `github/awesome-copilot` | `db8d563aefebf9dd569bc72596c4ebd817847534` | MIT, GitHub, Inc. | Conceptual influence: GitHub workflow and secret-aware delivery |
-| `github/github-mcp-server` | `85598ba6e1256f7ebf4867b95d63b833c4549264` | MIT, GitHub (2025) | Compatibility target; capability and read-only-mode research |
+| `github/github-mcp-server` | `85598ba6e1256f7ebf4867b95d63b833c4549264` | MIT, GitHub (2025) | Official GitHub capability and read-only-mode research |
 | `richkuo/rk-skills` | `369cab825d81416a5a51fbdf3d774ed2fa02d23b` | MIT, Richard Kuo (2026) | Conceptual influence: claim-level validation and review reconciliation |
+| `Leonxlnx/taste-skill` | `c184364c58658b2f131b4ae8bd3d206cabb3deee` | MIT, Leonxlnx (2026) | Selective visual-quality reference only; no skill text or assets copied |
+| `nextlevelbuilder/ui-ux-pro-max-skill` | `dcc40ff5133ef78276117db0cc34e7b83cc8aeba` | MIT root license, Next Level Builder (2024) | Search and design-system concepts only; indexed data and assets were not copied |
 
-No third-party source files are vendored. No substantial verbatim text or code from these repositories is included.
+No third-party source files or data corpora are vendored. No substantial verbatim text or code from these repositories is included. A root license does not establish the rights for every embedded record or asset; exact-file and exact-revision provenance must be checked before future reuse.
 
 ## Source without a located license
 
@@ -28,4 +30,4 @@ The installed user-level `%USERPROFILE%\.codex\skills\prompt-refiner` was inspec
 
 ## Official documentation
 
-Runtime structure and current commands were verified against official OpenAI, Anthropic, and GitHub documentation. Documentation describes interfaces and is not incorporated as third-party source code.
+Codex plugin structure and current commands were checked against official OpenAI documentation. GitHub workflow and tooling guidance was checked against official GitHub documentation. Documentation describes interfaces and is not incorporated as third-party source code.

@@ -1,5 +1,0 @@
-interface:
-  display_name: "Engineer"
-  short_description: "Route engineering work with proportional rigor"
-  default_prompt: "Use $engineer to complete this engineering task with repository-grounded evidence."
-

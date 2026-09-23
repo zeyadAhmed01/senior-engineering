@@ -1,8 +1,7 @@
 # System Design
 
-Status: accepted for v0.1.0  
-Primary runtime: Codex  
-Compatibility runtime: Claude Code
+Status: accepted for v1.0.0
+Supported runtime: OpenAI Codex only
 
 ## Design goals
 
@@ -14,7 +13,7 @@ The system should make a capable coding agent more reliable without making routi
 - keep external writes and destructive actions inside clear authorization boundaries;
 - require evidence for completion claims;
 - remain useful without GitHub MCP, a specific model, or a specific framework;
-- use one canonical source for shared workflow content.
+- use one canonical source for workflow content and Codex-specific packaging.
 
 ## Public surface
 
@@ -29,7 +28,7 @@ The plugin exposes six skills:
 | `github` | automatic for reads; mutation-gated | Reconcile issues, branches, PRs, reviews, and CI |
 | `release` | explicit-only | Assess release readiness and perform only explicitly authorized publication actions |
 
-Detailed procedures are internal references, not additional discoverable skills.
+Detailed procedures are internal references, not additional discoverable skills. [Phase 2 decisions](phase-2-decisions.md) records the resolved workflow tradeoffs; [Phase 3 architecture](phase-3-architecture.md) defines the public mental model, Design Contract, and capability boundaries.
 
 The [context budget](../../skills/engineer/references/context-budget.md) is an internal policy in `engineer`, shared by link where review, verification, and delivery need it. It routes reading, research, specialists, output, and optional continuation state through the existing risk classification. It adds no public skill, risk class, token score, or model switch.
 
@@ -140,6 +139,14 @@ Select the narrowest available capability:
 
 Before an external mutation, restate target repository, object, intended change, and authorization source. After it, read back the result and bind it to an identifier or SHA.
 
+During discovery, prefer an authenticated official GitHub MCP endpoint with the smallest read-only toolset needed. Check endpoint authenticity, authentication behavior, credential exposure, and write scope before relying on an integration. Tool lockdown and prompt-injection defenses are safeguards, not authority.
+
+## Material UI work
+
+Use a concise Design Contract when a change affects an important user workflow, interaction model, information hierarchy, or visual system. It records the user and context, primary path and relevant states, layout and interaction constraints, accessibility/localization needs, applicable product design rules, supplied references, unresolved decisions, and evidence. Skip it for a clear mechanical style change.
+
+Use current product behavior and the project design system first, then explicit user requirements and supplied references, official platform/accessibility standards, real-product examples for interaction patterns, and visual showcases for inspiration. Keep product UX decisions distinct from visual execution. See the [Phase 3 architecture](phase-3-architecture.md) for the full contract and source hierarchy.
+
 ## Specialist roles
 
 The coordinator may delegate only bounded, independent work:
@@ -151,14 +158,13 @@ The coordinator may delegate only bounded, independent work:
 
 Delegation is adaptive. A specialist does not inherit authority to edit, publish, or widen scope unless the coordinator's assignment explicitly grants it. Conflicting specialist findings are reconciled against source evidence by the coordinator.
 
-## Portability model
+## Codex packaging model
 
-- Canonical skills use Agent Skills structure and shared Markdown references.
-- `plugin.json` is the Agent Plugins 1.0 portable root metadata source; OpenAI UI metadata lives under `extensions.com.openai`.
-- `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json` are generated compatibility manifests.
-- `dist/claude/` is a generated Claude distribution adapter. It copies the canonical skills and agents and adds only Claude-specific explicit-invocation metadata to `refine` and `release`.
-- Canonical specialist roles are Markdown files in `agents/`; Codex TOML agents are generated into `.codex/agents/`.
-- Runtime-specific controls are reproducible generated adapters, not hand-maintained forks of the workflow body.
+- Skills use the Codex-supported `SKILL.md` structure and shared Markdown references.
+- `plugin.json` is the root plugin metadata source; OpenAI presentation metadata lives under `extensions.com.openai`.
+- `.codex-plugin/plugin.json` is a generated Codex compatibility manifest.
+- Specialist roles are canonical Markdown files in `agents/`; Codex TOML agents are generated into `.codex/agents/`.
+- Codex metadata is reproducible generated output, not a hand-maintained fork of the workflow body.
 - GitHub MCP is optional; no skill assumes a tool name exists before discovery.
 
 ## Completion gate

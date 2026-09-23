@@ -1,6 +1,6 @@
 ---
 name: github
-description: Inspect and reconcile GitHub issues, branches, pull requests, review feedback, checks, and delivery state with explicit mutation boundaries. Use for GitHub issue validation, PR creation or review, CI/check failures, review resolution, or delivery requests.
+description: Inspect GitHub issue or pull-request state, CI checks, and delivery. Use when a task needs remote metadata, review reconciliation, or branch/PR delivery; source-code correctness review alone belongs to the review skill.
 license: MIT
 ---
 

@@ -1,5 +1,0 @@
-interface:
-  display_name: "GitHub"
-  short_description: "Reconcile issues, PRs, reviews, and CI safely"
-  default_prompt: "Use $github to inspect and reconcile this GitHub workflow."
-

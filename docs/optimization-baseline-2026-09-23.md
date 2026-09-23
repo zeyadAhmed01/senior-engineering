@@ -4,7 +4,7 @@ This records the source state before changing workflow behavior. Counts are UTF-
 
 ## Skill graph and activation
 
-Six public skills are declared: `engineer`, `refine`, `review`, `verify`, `github`, and `release`. Their `SKILL.md` files total 11,360 bytes. All canonical skill Markdown under `skills/` totals 41,948 bytes. Metadata is visible at discovery; skill bodies load when selected; references are linked for conditional loading. `refine` and `release` are explicit-only. Generated Claude skill copies and Codex agent adapters are outputs, not separate policy sources.
+Six public skills are declared: `engineer`, `refine`, `review`, `verify`, `github`, and `release`. Their `SKILL.md` files total 11,360 bytes. All canonical skill Markdown under `skills/` totals 41,948 bytes. Metadata is visible at discovery; skill bodies load when selected; references are linked for conditional loading. `refine` and `release` are explicit-only. Generated Codex agent files are outputs, not separate policy sources.
 
 `engineer` is the main router. It always directs the reader to classification and risk (1,978 bytes) and completion gate (1,190 bytes), then to a task-specific workflow and conditional planning/testing references. Its own body is 2,795 bytes. `review`, `verify`, `github`, and `release` select small references by operation. No reference is automatically loaded by the file layout itself.
 

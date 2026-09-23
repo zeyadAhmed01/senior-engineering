@@ -1,7 +1,0 @@
-interface:
-  display_name: "Release"
-  short_description: "Assess or perform explicitly authorized releases"
-  default_prompt: "Use $release to assess release readiness without publishing unless I explicitly authorize it."
-policy:
-  allow_implicit_invocation: false
-

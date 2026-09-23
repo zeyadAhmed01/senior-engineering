@@ -24,9 +24,10 @@ Follow repository conventions and authoritative current documentation. Keep busi
 
 For bugs, prefer a focused red-to-green regression when safe and practical. Do not delete valid prior work because it was not written test-first. Do not weaken, skip, or delete a valid test merely to obtain green output.
 
+For retries or concurrency, verify idempotency and ordering at the durable boundary, not only in the UI or process-local memory. If the available fixture lacks durable state, add the smallest realistic persistence seam or explicitly report that the durable behavior is unproven; never present an in-memory guard as a durable fix.
+
 ## Verification order
 
 Run narrow checks during implementation, then the broadest proportionate set: focused tests, affected suite, type/static analysis, lint/format, build/package validation, and runtime/security/performance checks created by the change.
 
 Classify failures as change-caused, pre-existing, flaky, environment, or unknown with evidence. Rerun affected checks after later edits.
-

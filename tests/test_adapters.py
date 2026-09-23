@@ -27,17 +27,14 @@ class AdapterTests(unittest.TestCase):
 
     def test_runtime_manifests_match_canonical_identity(self) -> None:
         canonical = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
-        for path in (
-            ROOT / ".codex-plugin" / "plugin.json",
-            ROOT / ".claude-plugin" / "plugin.json",
-            ROOT / "dist" / "claude" / ".claude-plugin" / "plugin.json",
-        ):
+        for path in (ROOT / ".codex-plugin" / "plugin.json",):
             adapter = json.loads(path.read_text(encoding="utf-8"))
             for field in ("name", "version", "description", "author", "license"):
                 self.assertEqual(adapter[field], canonical[field], f"{path}: {field}")
 
     def test_portable_manifest_uses_openai_extension(self) -> None:
         manifest = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["version"], "1.0.0")
         self.assertEqual(
             manifest["$schema"],
             "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
@@ -56,29 +53,17 @@ class AdapterTests(unittest.TestCase):
             self.assertTrue(data["description"])
             self.assertTrue(data["developer_instructions"])
 
-    def test_claude_distribution_enforces_explicit_only_skills(self) -> None:
-        for skill in ("refine", "release"):
-            text = (ROOT / "dist" / "claude" / "skills" / skill / "SKILL.md").read_text(
-                encoding="utf-8"
-            )
-            self.assertIn("disable-model-invocation: true", text.split("---", 2)[1])
-
-    def test_claude_distribution_contains_every_behavioral_eval_fixture(self) -> None:
-        cases = json.loads((ROOT / "evals" / "cases.json").read_text(encoding="utf-8"))["cases"]
-        for case in cases:
-            fixture = ROOT / "dist" / "claude" / "evals" / case["native_claude_case"]
-            self.assertTrue((fixture / "prompt.md").is_file())
-            self.assertTrue((fixture / "graders" / "criteria.md").is_file())
-            self.assertTrue((fixture / "graders" / "skill-fired.md").is_file())
-
-    def test_claude_eval_results_are_not_packaged(self) -> None:
+    def test_release_contains_only_codex_adapter_surfaces(self) -> None:
+        unsupported_surfaces = (
+            ROOT / ".claude-plugin",
+            ROOT / "CLAUDE.md",
+            ROOT / "dist" / "claude",
+            ROOT / "evals" / "claude",
+        )
+        self.assertEqual([path for path in unsupported_surfaces if path.exists()], [])
         generated = expected_files()
-        generated_results = [
-            path
-            for path in generated
-            if path.is_relative_to(ROOT / "dist" / "claude" / "evals" / "results")
-        ]
-        self.assertEqual(generated_results, [])
+        self.assertTrue(generated)
+        self.assertTrue(all("claude" not in path.as_posix().lower() for path in generated))
 
     def test_orphan_detection_catches_stale_generated_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -87,7 +72,6 @@ class AdapterTests(unittest.TestCase):
             orphans = [
                 root / ".codex" / "agents" / "old-name.toml",
                 root / ".codex-plugin" / "unexpected.json",
-                root / ".claude-plugin" / "unexpected.json",
             ]
             expected.parent.mkdir(parents=True)
             expected.write_text("expected", encoding="utf-8")

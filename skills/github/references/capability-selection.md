@@ -11,7 +11,7 @@ Do not assume capability names. Discover available tools or command help. Curren
 
 ## MCP
 
-Prefer read-only mode during discovery and the smallest toolset, such as repositories, issues, pull requests, Actions, code security, or secret protection. Lockdown and push protection are defense in depth, not authorization or proof that content is safe.
+Prefer read-only mode during discovery and the smallest toolset, such as repositories, issues, pull requests, Actions, code security, or secret protection. Before relying on a connector, verify that its endpoint is the official intended service, understand its authentication flow and credential exposure, and inspect which write operations its configuration exposes. Use a documented read-only endpoint or toolset when available. Lockdown and push protection are defense in depth, not authorization or proof that content is safe.
 
 ## CLI
 
@@ -24,4 +24,3 @@ Validate refs before shell use. Fetch only when needed and without overwriting l
 ## Fallback
 
 If no structured capability can perform an authorized action, report the exact missing capability and provide a safe manual command or step. Do not silently replace a read with a scrape or a write with browser clicking.
-

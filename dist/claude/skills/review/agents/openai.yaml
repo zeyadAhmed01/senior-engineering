@@ -1,0 +1,5 @@
+interface:
+  display_name: "Review"
+  short_description: "Independently review code, plans, or architecture"
+  default_prompt: "Use $review for an independent evidence-based review of this change."
+

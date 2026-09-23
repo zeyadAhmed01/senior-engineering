@@ -1,0 +1,16 @@
+{
+  "name": "senior-engineering",
+  "version": "0.1.0",
+  "description": "Risk-aware engineering workflows for AI coding agents, from intent through verified delivery.",
+  "author": {
+    "name": "Senior Engineering Workflow Contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "engineering",
+    "workflow",
+    "code-review",
+    "verification",
+    "github"
+  ]
+}

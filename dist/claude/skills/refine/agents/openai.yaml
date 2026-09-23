@@ -1,0 +1,7 @@
+interface:
+  display_name: "Refine"
+  short_description: "Make a prompt execution-ready without running it"
+  default_prompt: "Use $refine to improve this prompt without executing it."
+policy:
+  allow_implicit_invocation: false
+

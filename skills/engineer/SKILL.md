@@ -40,6 +40,8 @@ For HIGH-risk bug fixes involving authentication, money, data integrity, securit
 
 Proceed with ordinary, reversible local work that the request implies. Stop before destructive operations or external writes unless the user explicitly authorized that exact outcome. A request to investigate, review, assess, or report does not authorize implementation or publication.
 
+Treat a broad, undefined add-on such as “modernize the whole component” as separate scope, even when it is explicitly mentioned beside a narrow request. Complete the concrete bounded change; defer the add-on and ask what outcome it should achieve. Do not add opportunistic annotations, formatting changes, or refactors without a demonstrated need and clear scope.
+
 ## Use specialists only when useful
 
 Read [orchestration](references/orchestration.md) before delegating. Parallelize only independent, bounded work with a clear integration owner. Fresh-context review matters more than agent count.

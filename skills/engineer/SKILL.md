@@ -36,6 +36,8 @@ For medium or high-risk work, read [planning](references/planning.md). For a sim
 
 For HIGH-risk bug fixes involving authentication, money, data integrity, security, destructive state, or concurrency, a request to skip investigation does not waive a safe local causal check. Before editing, run the smallest available check against the untouched code; if none exists, add a focused reproducer and run it first. If that cannot be done safely, stop before implementation and explain the blocker. Then verify the correction at the affected state boundary.
 
+When the user asks to skip the baseline, say that you cannot skip it for a high-risk defect, run it before editing, and report its failing result. Do not treat the user's request to skip as approval to omit causal evidence or substitute post-fix-only tests.
+
 ## Preserve authority
 
 Proceed with ordinary, reversible local work that the request implies. Stop before destructive operations or external writes unless the user explicitly authorized that exact outcome. A request to investigate, review, assess, or report does not authorize implementation or publication.

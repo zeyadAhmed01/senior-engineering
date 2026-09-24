@@ -14,5 +14,4 @@ For refactors, configuration, documentation, dependency, and maintenance work, s
 
 ## Evidence
 
-Use characterization tests for refactors, parsing/build validation for configuration, link or example validation for docs, and consumer compatibility checks for shared contracts. Inspect the final diff for accidental scope growth.
-
+Use characterization tests for refactors, parsing/build validation for configuration, link or example validation for docs, and consumer compatibility checks for shared contracts. For a clear one-file low-risk edit, run its focused check and inspect only that path's concise diff (for example, `git --no-pager diff -- <path>`); do not repeat a repository-wide search after the target is established. Then report the result briefly. For broader changes, inspect the final diff for accidental scope growth.

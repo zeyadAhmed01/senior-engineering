@@ -54,12 +54,12 @@ The release has been prepared and checked on Windows. macOS and Linux installati
 After this repository is public, add its GitHub marketplace source pinned to the release tag, then install the plugin:
 
 ```powershell
-codex plugin marketplace add <owner>/<repository> --ref v1.0.0
+codex plugin marketplace add zeyadAhmed01/senior-engineering --ref v1.0.0
 codex plugin add senior-engineering@senior-engineering
 codex plugin list --json
 ```
 
-Replace `<owner>/<repository>` with the actual GitHub repository path. The commands add the marketplace and plugin to the selected Codex home; they do not edit project source files or project configuration. By default, Codex keeps the installed copy in `%USERPROFILE%\.codex\plugins\cache\senior-engineering\senior-engineering\1.0.0`. If `CODEX_HOME` is set, the cache is under that directory instead. The included repo marketplace file describes the source; the plugin itself is installed into the Codex user home.
+The commands add the marketplace and plugin to the selected Codex home; they do not edit project source files or project configuration. By default, Codex keeps the installed copy in `%USERPROFILE%\.codex\plugins\cache\senior-engineering\senior-engineering\1.0.0`. If `CODEX_HOME` is set, the cache is under that directory instead. The included repo marketplace file describes the source; the plugin itself is installed into the Codex user home. The GitHub repository must exist and the `v1.0.0` tag must be published before using this command.
 
 ### Install from a local clone
 
@@ -128,7 +128,7 @@ For a GitHub installation pinned to a release tag, remove and re-add the marketp
 ```powershell
 codex plugin remove senior-engineering@senior-engineering
 codex plugin marketplace remove senior-engineering
-codex plugin marketplace add <owner>/<repository> --ref <new-release-tag>
+codex plugin marketplace add zeyadAhmed01/senior-engineering --ref <new-release-tag>
 codex plugin add senior-engineering@senior-engineering
 codex plugin list --json
 ```

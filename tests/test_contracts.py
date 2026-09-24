@@ -159,7 +159,9 @@ class ContractTests(unittest.TestCase):
 
     def test_design_workflow_names_taste_v2_product_flow_limit(self) -> None:
         design = (ROOT / "skills" / "engineer" / "references" / "design-workflow.md").read_text(encoding="utf-8")
-        self.assertIn("Taste v2 is not intended for that flow", design)
+        entrypoint = (ROOT / "skills" / "engineer" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("Taste v2 is unsuitable for that flow", design)
+        self.assertIn("explicitly say that it is unsuitable", entrypoint)
 
     def test_design_and_github_cases_cover_the_new_architecture_boundaries(self) -> None:
         design = " ".join(self.cases["design-material-flow"]["expected"]["must"])

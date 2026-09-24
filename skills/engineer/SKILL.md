@@ -32,6 +32,8 @@ Read [repository discovery](references/repository-discovery.md) for an unfamilia
 
 Before implementing a feature that materially changes a user-facing flow, interaction, information hierarchy, or visual system, read the feature workflow and its linked design workflow. Capture the material product and visual decisions in a concise working Design Contract before editing; keep unverified assumptions explicit.
 
+If a request names Taste v2 for a dashboard, table, or multi-step product flow, explicitly say that it is unsuitable for that use and continue from the actual product flow and design system. Do not reinterpret Taste's limits as a different audit method.
+
 For medium or high-risk work, read [planning](references/planning.md). For a simple low-risk change, choose a focused check directly; read [implementation and testing](references/implementation-and-testing.md) when behavior spans components or states, test design is not obvious, or broader verification is needed.
 
 For HIGH-risk bug fixes involving authentication, money, data integrity, security, destructive state, or concurrency, a request to skip investigation does not waive a safe local causal check. Before editing, run the smallest available check against the untouched code; if none exists, add a focused reproducer and run it first. If that cannot be done safely, stop before implementation and explain the blocker. Then verify the correction at the affected state boundary.

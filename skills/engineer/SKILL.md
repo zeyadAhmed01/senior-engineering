@@ -36,6 +36,8 @@ Before implementing a feature that materially changes a user-facing flow, intera
 
 If a request names Taste v2 for a dashboard, table, or multi-step product flow, explicitly say that it is unsuitable for that use and continue from the actual product flow and design system. Do not reinterpret Taste's limits as a different audit method.
 
+For proposal-only visual work, end with an **Evidence and next check** line that names the repository evidence, the relevant visual or accessibility checks not run, and the smallest next observation. Do not claim unobserved results.
+
 For medium or high-risk work, read [planning](references/planning.md). For a simple low-risk change, choose a focused check directly; read [implementation and testing](references/implementation-and-testing.md) when behavior spans components or states, test design is not obvious, or broader verification is needed.
 
 ## Preserve authority

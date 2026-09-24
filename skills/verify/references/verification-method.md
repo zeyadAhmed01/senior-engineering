@@ -24,7 +24,8 @@ Read complete relevant output and exit status. Distinguish change-caused failure
 
 Never rerun until green and omit earlier failures. Never replace an unavailable high-value check with a weaker check without marking the limitation.
 
+For visual or accessibility claims, report those statuses separately from code/test completion. If the rendered interface or an appropriate accessibility check was not observed, name the smallest next evidence needed, such as a target viewport capture plus keyboard and accessible-name/state checks; do not stop at saying the result is unverified.
+
 ## Freshness
 
 Rerun affected checks after code, test, config, generated adapter, dependency, or environment changes. Bind remote evidence to a current head SHA or object identifier.
-

@@ -8,6 +8,8 @@ license: MIT
 
 Deliver the requested outcome with the smallest process that adequately controls its risk.
 
+**High-risk bug gate:** For authentication, money, data integrity, security, destructive state, or concurrency defects, do not promise to skip investigation or edit files before a baseline check runs against untouched code. A user request to skip it, or a report that a test already fails, does not satisfy this gate. Briefly explain the requirement, run the smallest safe existing check (or add and run a focused reproducer), report the result, then implement. If a safe baseline is unavailable, stop before editing and explain why.
+
 ## Start with a Task Contract
 
 Capture the outcome, constraints, scope, authority, risk, route, and relevant check in working context. For a clear, reversible low-risk request, keep this to one concise line; record the full fields when uncertainty, risk, or multiple requirements make them useful. Persist it only when the task is long or multi-session.
@@ -35,10 +37,6 @@ Before implementing a feature that materially changes a user-facing flow, intera
 If a request names Taste v2 for a dashboard, table, or multi-step product flow, explicitly say that it is unsuitable for that use and continue from the actual product flow and design system. Do not reinterpret Taste's limits as a different audit method.
 
 For medium or high-risk work, read [planning](references/planning.md). For a simple low-risk change, choose a focused check directly; read [implementation and testing](references/implementation-and-testing.md) when behavior spans components or states, test design is not obvious, or broader verification is needed.
-
-For HIGH-risk bug fixes involving authentication, money, data integrity, security, destructive state, or concurrency, do not edit until a safe local causal check has run against untouched code. A user's report that a test already fails is not evidence that this run's baseline was executed, and a request to skip reproduction does not waive it. Briefly explain the requirement, run the smallest available existing check (or add a focused reproducer and run it first), report its result, then implement and verify the correction at the affected state boundary. If this cannot be done safely, stop before implementation and explain the blocker.
-
-When the user asks to skip the baseline, say that you cannot skip it for a high-risk defect, run it before editing, and report its result. Do not treat a claimed, remembered, or requested test result as an executed baseline, or substitute post-fix-only tests.
 
 ## Preserve authority
 

@@ -74,6 +74,14 @@ class ContractTests(unittest.TestCase):
             ["--disable", "apps", "--disable", "remote_plugin"],
         )
 
+    def test_contract_runner_records_supported_reasoning_effort(self) -> None:
+        self.assertEqual(
+            CONTRACT_RUNNER["reasoning_effort_args"]("low"),
+            ["-c", 'model_reasoning_effort="low"'],
+        )
+        with self.assertRaises(ValueError):
+            CONTRACT_RUNNER["reasoning_effort_args"]("unrecognized")
+
     def test_every_current_contract_has_a_disposable_fixture(self) -> None:
         seed = CONTRACT_RUNNER["seed"]
         for case_id in self.cases:

@@ -23,8 +23,8 @@ The runners require a dedicated `CODEX_HOME` under `%LOCALAPPDATA%\CodexEval`, s
 Run one case or the full contract set only after the isolation proof succeeds:
 
 ```powershell
-python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --model <codex-model> --case low-risk-directness
-python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --model <codex-model>
+python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --model <codex-model> --reasoning medium --case low-risk-directness
+python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --model <codex-model> --reasoning medium
 ```
 
 Each result must be graded against that case's `expected.must` and `expected.must_not` criteria. Record the case, expected behavior, actual behavior, pass/fail, Codex version, model/reasoning settings, installed skill path, exit status, and any meaningful observation. Keep an unavailable or unsafe run unproven; do not infer a pass from historical output, a static check, or successful plugin installation.

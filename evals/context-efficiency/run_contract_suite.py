@@ -22,6 +22,13 @@ from isolation import (
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES_PATH = ROOT / "evals" / "cases.json"
+REASONING_EFFORTS = ("low", "medium", "high")
+
+
+def reasoning_effort_args(reasoning: str) -> list[str]:
+    if reasoning not in REASONING_EFFORTS:
+        raise ValueError(f"Unsupported reasoning effort: {reasoning}")
+    return ["-c", f'model_reasoning_effort="{reasoning}"']
 
 
 def seed(case_id: str) -> dict[str, str]:
@@ -166,7 +173,7 @@ def codex_version() -> str:
     return result.stdout.strip() or "unavailable"
 
 
-def run_case(case: dict[str, object], fixture_root: Path, trace_root: Path, codex_home: Path, timeout: int, marketplace_name: str, model: str) -> dict[str, object]:
+def run_case(case: dict[str, object], fixture_root: Path, trace_root: Path, codex_home: Path, timeout: int, marketplace_name: str, model: str, reasoning: str) -> dict[str, object]:
     case_id = str(case["id"])
     fixture = fixture_root / case_id
     fixture.mkdir(parents=True, exist_ok=False)
@@ -223,7 +230,7 @@ def run_case(case: dict[str, object], fixture_root: Path, trace_root: Path, code
         "Evaluate the user request using the available local evidence and preserve all applicable safety requirements.\n\n"
         + str(case["prompt"])
     )
-    command = ["codex", "exec", "--json", "--ephemeral", "--skip-git-repo-check", *eval_disabled_feature_args(), "-m", model, "-c", 'approval_policy="never"', "-c", 'model_reasoning_effort="medium"', "-C", str(fixture), "-o", str(final), task_prompt]
+    command = ["codex", "exec", "--json", "--ephemeral", "--skip-git-repo-check", *eval_disabled_feature_args(), "-m", model, "-c", 'approval_policy="never"', *reasoning_effort_args(reasoning), "-C", str(fixture), "-o", str(final), task_prompt]
     with output.open("wb") as stream:
         try:
             result = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=stream, stderr=subprocess.STDOUT, env=env, timeout=timeout, check=False)
@@ -266,7 +273,7 @@ def run_case(case: dict[str, object], fixture_root: Path, trace_root: Path, code
         "expected": case["expected"],
         "exit_code": exit_code,
         "model_requested": model,
-        "reasoning_requested": "medium",
+        "reasoning_requested": reasoning,
         "sandbox_mode": SANDBOX_MODE,
         "permission_profile": PERMISSION_PROFILE,
         "environment_policy": "allowlist",
@@ -293,6 +300,7 @@ def main() -> None:
     parser.add_argument("--timeout-seconds", type=int, default=420)
     parser.add_argument("--marketplace-name", default="se-v100-release-eval")
     parser.add_argument("--model", default="gpt-5.6-sol")
+    parser.add_argument("--reasoning", choices=REASONING_EFFORTS, default="medium")
     parser.add_argument("--case", action="append", default=[])
     args = parser.parse_args()
 
@@ -307,7 +315,7 @@ def main() -> None:
     (trace_root / "empty-gh-config").mkdir(exist_ok=True)
     (trace_root / "empty-gitconfig").touch(exist_ok=True)
     for case in selected:
-        print(json.dumps(run_case(case, fixture_root, trace_root, args.codex_home, args.timeout_seconds, args.marketplace_name, args.model)), flush=True)
+        print(json.dumps(run_case(case, fixture_root, trace_root, args.codex_home, args.timeout_seconds, args.marketplace_name, args.model, args.reasoning)), flush=True)
 
 
 if __name__ == "__main__":

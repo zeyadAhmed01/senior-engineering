@@ -28,3 +28,5 @@ Read [publication](references/publication.md) only when the user explicitly auth
 ## Verify
 
 After publication, read back the tag/release/artifact/deployment and verify the next downstream boundary. Report exactly what is proven. A GitHub release is not a deployment; a deployment record is not production health.
+
+For completed release reports, follow the Engineer [completion gate](../engineer/references/completion-gate.md) to recommend a safe next step and provide a prompt that preserves the user's authorization boundary.

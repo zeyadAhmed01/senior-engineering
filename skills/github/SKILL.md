@@ -36,3 +36,5 @@ Use the Engineer [context budget](../engineer/references/context-budget.md) for 
 ## Report
 
 Separate local repository state, remote branch state, PR state, checks, review state, merge state, and release/deployment state. Link or identify exact objects and name any unavailable evidence.
+
+For completed delivery reports, follow the Engineer [completion gate](../engineer/references/completion-gate.md) and finish with the evidence-based next step and ready-to-send Codex prompt.

@@ -34,3 +34,5 @@ Do not inherit the implementer's confidence or reasoning as proof. Reconcile ear
 ## Report
 
 Lead with material findings in severity order. Each finding needs a precise location, concrete trigger, impact, evidence, and fix direction. Separate blocking defects, non-blocking improvements, and verification limitations. If no material defect is found, say what was reviewed and what remains unproven.
+
+For completed reviews, follow the Engineer [completion gate](../engineer/references/completion-gate.md) to recommend the best next step and provide a prompt scoped to that step.

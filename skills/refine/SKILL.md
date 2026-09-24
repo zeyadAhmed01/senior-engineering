@@ -42,6 +42,6 @@ When relevant, make the prompt tell the executing agent to:
 
 ## Output
 
-Output only the refined prompt. Do not preface it, explain the rewrite, inspect files, call tools, or begin the task.
+Output only the refined prompt. It is the recommended next step and ready-to-send prompt; do not append a second recommendation. Do not preface it, explain the rewrite, inspect files, call tools, or begin the task.
 
 Read [examples](references/examples.md) when the input mixes objectives, includes vague expansion such as "redesign if needed," or pressures the executor to skip safety evidence.

@@ -36,3 +36,5 @@ For each claim report:
 - BLOCKED - safe verification requires missing input, access, or external state.
 
 Do not implement a fix during a verification-only request. Report the cause and smallest next action when evidence fails.
+
+For completed verification reports, follow the Engineer [completion gate](../engineer/references/completion-gate.md) to recommend the best next step and provide a prompt scoped to that step.

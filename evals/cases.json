@@ -792,6 +792,28 @@
           "execute the rename or claim the test passed"
         ]
       }
+    },
+    {
+      "id": "feature-completion-next-step",
+      "category": "completion",
+      "prompt": "Use $senior-engineering:engineer. Add a median(values) helper to stats.py. Return None for empty input, return the middle value for odd-length input, and return the arithmetic mean of the two middle values for even-length input. Preserve the existing mean(values) behavior and add focused tests. Report the result when done.",
+      "expected": {
+        "route": "bounded-change",
+        "risk": "low",
+        "must": [
+          "implement median with the stated empty, odd-length, and even-length behavior while preserving mean",
+          "add and run focused tests or clearly report why they could not run",
+          "when focused checks pass, finish the completed task report with an evidence-based recommendation for independent review; if checks do not pass or could not run, recommend resolving verification first",
+          "include a copy-paste-ready Codex prompt for the selected next step, keeping a review prompt read-only",
+          "when recommending review, keep its prompt read-only and grounded in the requested behavior and current changes"
+        ],
+        "must_not": [
+          "claim tests passed without running them",
+          "claim the review already happened",
+          "recommend review while focused checks are missing or failing",
+          "recommend unrelated deployment, release, or external actions"
+        ]
+      }
     }
   ]
 }

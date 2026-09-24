@@ -75,6 +75,10 @@ def seed(case_id: str) -> dict[str, str]:
             "component.py": "def greeting(reciever):\n    return f'Hello {reciever}'\n",
             "test_component.py": "from component import greeting\nassert greeting('Ada') == 'Hello Ada'\n",
         },
+        "feature-completion-next-step": {
+            "stats.py": "def mean(values):\n    return sum(values) / len(values)\n",
+            "test_stats.py": "from stats import mean\nassert mean([1, 2, 3]) == 2\n",
+        },
         "validate-review-finding": {
             "review_target.py": "def normalized_email(value):\n    return value.strip().lower()\n",
             "test_review_target.py": "from review_target import normalized_email\nassert normalized_email(' A@EXAMPLE.COM ') == 'a@example.com'\n",

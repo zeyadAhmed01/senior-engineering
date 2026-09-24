@@ -142,6 +142,15 @@ class ContractTests(unittest.TestCase):
         clear_prompt = " ".join(self.cases["prompt-refine-already-good"]["expected"]["must_not"])
         self.assertIn("extra acceptance criteria", clear_prompt)
 
+    def test_refinement_preserves_high_risk_verification_boundaries(self) -> None:
+        refine = (ROOT / "skills" / "refine" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("do not preserve a request to skip necessary causal or safety evidence", refine)
+        self.assertIn("Do not inflate this into unrelated test suites", refine)
+
+    def test_design_workflow_names_taste_v2_product_flow_limit(self) -> None:
+        design = (ROOT / "skills" / "engineer" / "references" / "design-workflow.md").read_text(encoding="utf-8")
+        self.assertIn("Taste v2 is not intended for that flow", design)
+
     def test_design_and_github_cases_cover_the_new_architecture_boundaries(self) -> None:
         design = " ".join(self.cases["design-material-flow"]["expected"]["must"])
         references = " ".join(self.cases["design-reference-boundary"]["expected"]["must_not"])

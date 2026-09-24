@@ -35,6 +35,8 @@ Omit fields that do not apply. Keep it in working context for a small task; pers
 
 Adapt references to the user and product rather than copying an image. A visual gallery cannot establish product requirements. Taste-style visual direction is not a default for dashboards, data tables, or multi-step product workflows.
 
+When a request specifically names Taste v2 for a dashboard, table, or multi-step product flow, say that Taste v2 is not intended for that flow and continue with the repository's design system and product evidence. Do not imply the method is unavailable when the actual issue is that it is unsuitable.
+
 For marketing or brand-heavy pages, use the project's brand system first, then Dribbble, then Pinterest if needed. No external service or paid access is mandatory. If authentication, MCP, service access, or search results are unavailable or poor, continue with the evidence already available and state the limitation only when it affects the decision.
 
 If a named design method, reference, or service is unavailable or unsuitable for the product flow, say so briefly and continue with an independent recommendation grounded in the local routed experience, existing design system, and user constraints. Do not make access to an optional inspiration source a blocker for useful design work. Ask only for unresolved product decisions that would change the workflow or meaning.

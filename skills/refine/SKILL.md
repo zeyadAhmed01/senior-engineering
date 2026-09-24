@@ -18,6 +18,7 @@ Keep the user's outcome, scope, constraints, tone, and desired deliverable. Do n
 - Do not turn common product conventions into requirements. Do not guess fields, matching rules, UI states, data scope, architecture, or acceptance criteria that the user did not specify.
 - If one missing decision would materially change behavior, data, safety, scope, or irreversible/external action, make the refined prompt instruct the executing agent to ask one concise question before acting. If work can proceed without deciding it, leave the choice open instead of adding a speculative assumption.
 - Do not turn optional detail into mandatory ceremony.
+- For HIGH-risk work involving money, authorization, data integrity, concurrency, or destructive production changes, do not preserve a request to skip necessary causal or safety evidence. Keep the requested outcome, but have the executor explain the smallest required baseline or regression check and perform it before making or claiming the change. Do not inflate this into unrelated test suites.
 
 ## Add execution quality
 

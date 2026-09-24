@@ -21,6 +21,8 @@ Before mutation confirm:
 
 High-impact actions—merge, tag, release, deployment, branch deletion, force-push, security-advisory publication—require explicit action-specific authorization.
 
+Treat force-push as a rewrite of shared branch history. Before any such write, resolve the exact repository and remote, target branch, current local and remote SHAs, branch protection, and action-specific authorization; check for other contributors' commits and prefer `--force-with-lease` only for a controlled, authorized rewrite. If any required state or authority is missing, stop and ask. Never issue an unqualified force-push.
+
 ## Write and verify
 
 Use an idempotent or uniquely identifiable operation where possible. After uncertain failure, read current state before retrying. Read back the result and bind it to URL/number/SHA. Never expose credentials in commands, comments, logs, or reports.

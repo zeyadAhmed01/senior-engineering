@@ -96,6 +96,15 @@ CASES = {
 }
 
 
+def installed_skill_pattern(marketplace_name: str) -> re.Pattern[str]:
+    plugin = json.loads((Path(__file__).resolve().parents[2] / "plugin.json").read_text(encoding="utf-8"))
+    version = re.escape(str(plugin["version"]))
+    return re.compile(
+        rf"plugins[/\\]+cache[/\\]+{re.escape(marketplace_name)}[/\\]+senior-engineering[/\\]+{version}[/\\]+skills[/\\]+([^/\\]+)[/\\]+SKILL\.md",
+        flags=re.IGNORECASE,
+    )
+
+
 def codex_version() -> str:
     result = subprocess.run(
         ["codex", "--version"], capture_output=True, text=True, check=False
@@ -172,11 +181,7 @@ def run_case(case_id: str, root: Path, model: str, rtk_dir: Path, codex_home: Pa
         "installed_skills_read": sorted(
             {
                 match.group(1).lower()
-                for match in re.finditer(
-                    rf"plugins[/\\]+cache[/\\]+{re.escape(marketplace_name)}[/\\]+senior-engineering[/\\]+0\.1\.0[/\\]+skills[/\\]+([^/\\]+)[/\\]+SKILL\.md",
-                    text,
-                    flags=re.IGNORECASE,
-                )
+                for match in installed_skill_pattern(marketplace_name).finditer(text)
             }
         ),
         "command_count": command_count,

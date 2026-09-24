@@ -20,6 +20,7 @@ RUNNER_DIR = ROOT / "evals" / "context-efficiency"
 sys.path.insert(0, str(RUNNER_DIR))
 try:
     CONTRACT_RUNNER = runpy.run_path(str(RUNNER_DIR / "run_contract_suite.py"), run_name="contract_runner")
+    ISOLATED_RUNNER = runpy.run_path(str(RUNNER_DIR / "run_isolated.py"), run_name="isolated_runner")
 finally:
     sys.path.remove(str(RUNNER_DIR))
 
@@ -119,6 +120,14 @@ class ContractTests(unittest.TestCase):
             {"category": "prompt-refinement", "prompt": request}
         )
         self.assertEqual(prompt, request)
+
+    def test_context_runner_tracks_skills_using_manifest_version(self) -> None:
+        pattern = ISOLATED_RUNNER["installed_skill_pattern"]("senior-engineering")
+        version = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))["version"]
+        path = rf"plugins\cache\senior-engineering\senior-engineering\{version}\skills\engineer\SKILL.md"
+        match = pattern.search(path)
+        self.assertIsNotNone(match)
+        self.assertEqual(match.group(1), "engineer")
 
     def test_prompt_refinement_cases_cover_requested_inputs_and_boundaries(self) -> None:
         expected_ids = {

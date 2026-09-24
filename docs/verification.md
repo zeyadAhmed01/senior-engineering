@@ -18,13 +18,13 @@ If Codex's bundled plugin and skill validators are available, run them against t
 
 `evals/cases.json` contains 43 behavior contracts. The original 19 cases from the initial Codex evaluation set remain present, ten additional cases extend those workflows, and fourteen explicit prompt-refinement cases cover vague and detailed requests, bug reports, refactoring, UI, performance, authentication/security, failing tests, Laravel/backend, frontend, payments, destructive migrations, concurrency, and already-good prompts. `evals/context-efficiency/run_contract_suite.py` runs one contract per fresh `codex exec` process against a disposable fixture and an installed plugin. `run_isolated.py` provides 11 additional context-efficiency scenarios.
 
-The runners require a dedicated `CODEX_HOME` under `%LOCALAPPDATA%\CodexEval`, separate from both the user's normal `%USERPROFILE%\.codex` and the temporary fixture tree. They strip inherited credential variables. The Windows permission profile must allow the installed skill package to be read, deny the user's normal `.codex` directory and the isolated home's `auth.json`, limit writes to the active fixture, and disable command networking. Configuration inspection alone does not prove a sandbox is enforced. Verify that the skill file is readable, both credential locations are denied, and command networking is blocked with a harmless canary before running model evaluations. Never switch to unrestricted filesystem access to make a test pass.
+The runners require a dedicated `CODEX_HOME` under `%LOCALAPPDATA%\CodexEval`, separate from both the user's normal `%USERPROFILE%\.codex` and the temporary fixture tree. They strip inherited credential variables and disable app integrations and remote plugins so cases exercise the installed local plugin without account-provisioned tools. The Windows permission profile must allow the installed skill package to be read, deny the user's normal `.codex` directory and the isolated home's `auth.json`, limit writes to the active fixture, and disable command networking. Configuration inspection alone does not prove a sandbox is enforced. Verify that the skill file is readable, both credential locations are denied, and command networking is blocked with a harmless canary before running model evaluations. Never switch to unrestricted filesystem access to make a test pass.
 
 Run one case or the full contract set only after the isolation proof succeeds:
 
 ```powershell
-python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --case low-risk-directness
-python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home>
+python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --model <codex-model> --case low-risk-directness
+python evals/context-efficiency/run_contract_suite.py --codex-home <dedicated-codex-home> --model <codex-model>
 ```
 
 Each result must be graded against that case's `expected.must` and `expected.must_not` criteria. Record the case, expected behavior, actual behavior, pass/fail, Codex version, model/reasoning settings, installed skill path, exit status, and any meaningful observation. Keep an unavailable or unsafe run unproven; do not infer a pass from historical output, a static check, or successful plugin installation.

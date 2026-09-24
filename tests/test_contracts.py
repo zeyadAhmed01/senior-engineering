@@ -68,6 +68,12 @@ class ContractTests(unittest.TestCase):
                 f"{case['id']} contains retired platform metadata",
             )
 
+    def test_evaluation_disables_account_integrations_but_keeps_local_plugins(self) -> None:
+        self.assertEqual(
+            ISOLATION.eval_disabled_feature_args(),
+            ["--disable", "apps", "--disable", "remote_plugin"],
+        )
+
     def test_every_current_contract_has_a_disposable_fixture(self) -> None:
         seed = CONTRACT_RUNNER["seed"]
         for case_id in self.cases:

@@ -14,6 +14,7 @@ from isolation import (
     PERMISSION_PROFILE,
     SANDBOX_MODE,
     build_codex_environment,
+    eval_disabled_feature_args,
     validate_codex_home,
     validate_codex_permissions,
 )
@@ -131,7 +132,7 @@ def run_case(case_id: str, root: Path, model: str, rtk_dir: Path, codex_home: Pa
         trace_root=traces,
         path_prefix=rtk_dir,
     )
-    command = ["codex", "exec", "--json", "--ephemeral", "--skip-git-repo-check", "-m", model, "-c", 'approval_policy="never"', "-c", 'model_reasoning_effort="medium"', "-C", str(fixture), "-o", str(final), str(case["prompt"])]
+    command = ["codex", "exec", "--json", "--ephemeral", "--skip-git-repo-check", *eval_disabled_feature_args(), "-m", model, "-c", 'approval_policy="never"', "-c", 'model_reasoning_effort="medium"', "-C", str(fixture), "-o", str(final), str(case["prompt"])]
     with output.open("wb") as stream:
         try:
             result = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=stream, stderr=subprocess.STDOUT, env=env, timeout=timeout_seconds, check=False)

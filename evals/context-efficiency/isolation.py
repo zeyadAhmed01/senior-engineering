@@ -9,6 +9,7 @@ from pathlib import Path
 
 PERMISSION_PROFILE = "se-eval-workspace"
 SANDBOX_MODE = f"permission-profile:{PERMISSION_PROFILE}"
+EVAL_DISABLED_FEATURES = ("apps", "remote_plugin")
 ALLOWED_ENVIRONMENT_KEYS = frozenset(
     {
         "APPDATA",
@@ -25,6 +26,11 @@ ALLOWED_ENVIRONMENT_KEYS = frozenset(
         "WINDIR",
     }
 )
+
+
+def eval_disabled_feature_args() -> list[str]:
+    """Disable account integrations while keeping the local test plugin active."""
+    return [argument for feature in EVAL_DISABLED_FEATURES for argument in ("--disable", feature)]
 
 
 def validate_codex_home(

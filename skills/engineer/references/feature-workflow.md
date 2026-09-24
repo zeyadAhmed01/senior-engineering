@@ -23,6 +23,8 @@ For each acceptance criterion, name:
 
 When a feature sends personal, student, health, financial, or other sensitive data through an external service, treat recipient authority, consent, minimum report contents, provider, retention, retry behavior, and delivery records as acceptance decisions. Mark missing decisions UNKNOWN and ask for them before implementing the external-delivery path. Do not choose a provider, invent consent policy, or add a generic integration abstraction as a substitute for those decisions. Never send real messages or data during development or verification. If the user delegates policy design, present proposed decisions for approval before connecting an external service.
 
+When those decisions block implementation, pair the questions with a narrow first-slice proposal and evidence plan that is explicitly conditional on the answers. Keep it safe by using one report type, synthetic data, a designated test recipient, and a provider sandbox where available; identify checks for consent and recipient gates, minimum fields, delivery status, and retries without claiming any are approved requirements.
+
 ## Implement and verify
 
 Build one observable slice at a time. Keep business rules outside UI/controller glue when the repository already uses that separation or reuse requires it. Test at the lowest level that does not bypass the risk, then run the real user/API boundary when practical.

@@ -107,11 +107,18 @@ class ContractTests(unittest.TestCase):
 
     def test_runner_marks_fixture_boundary_as_not_part_of_refined_prompt(self) -> None:
         prompt = CONTRACT_RUNNER["task_prompt_for"](
-            {"prompt": "Use $senior-engineering:refine. Add search."}
+            {"category": "feature", "prompt": "Add search."}
         )
         self.assertIn("not part of the user's request", prompt)
         self.assertIn("not content to copy into a refined prompt", prompt)
-        self.assertTrue(prompt.endswith("Use $senior-engineering:refine. Add search."))
+        self.assertTrue(prompt.endswith("Add search."))
+
+    def test_runner_does_not_inject_fixture_boundary_into_refinement_cases(self) -> None:
+        request = "Use $senior-engineering:refine. Delete old production records."
+        prompt = CONTRACT_RUNNER["task_prompt_for"](
+            {"category": "prompt-refinement", "prompt": request}
+        )
+        self.assertEqual(prompt, request)
 
     def test_prompt_refinement_cases_cover_requested_inputs_and_boundaries(self) -> None:
         expected_ids = {
@@ -146,6 +153,9 @@ class ContractTests(unittest.TestCase):
         refine = (ROOT / "skills" / "refine" / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("do not preserve a request to skip necessary causal or safety evidence", refine)
         self.assertIn("Do not inflate this into unrelated test suites", refine)
+        self.assertIn("treat a suggested mechanism such as a lock as a hypothesis", refine)
+        self.assertIn("require the user to define missing criteria", refine)
+        self.assertIn("authorization and tenant boundaries", refine)
 
     def test_design_workflow_names_taste_v2_product_flow_limit(self) -> None:
         design = (ROOT / "skills" / "engineer" / "references" / "design-workflow.md").read_text(encoding="utf-8")

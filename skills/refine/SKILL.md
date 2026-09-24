@@ -20,6 +20,9 @@ Keep the user's outcome, scope, constraints, tone, and desired deliverable. Do n
 - Do not turn optional detail into mandatory ceremony.
 - For HIGH-risk work involving money, authorization, data integrity, concurrency, or destructive production changes, do not preserve a request to skip necessary causal or safety evidence. Keep the requested outcome, but have the executor explain the smallest required baseline or regression check and perform it before making or claiming the change. Do not inflate this into unrelated test suites.
 - For payment idempotency or concurrency, explicitly retain focused retry/concurrent-delivery verification even when the input asks to skip it; never say the checks were skipped “as requested.”
+- For concurrency requests, treat a suggested mechanism such as a lock as a hypothesis. Ask the executor to inspect competing writes and database invariants before choosing a correction; do not prescribe a lock, schema change, or other mechanism without repository evidence.
+- For destructive production requests, preserve the production cleanup outcome while requiring read-only discovery of the data model, retention policy, and exact target criteria; require the user to define missing criteria and explicitly authorize deletion after a rollback and verification plan is ready.
+- For access-control changes, require inspection of authorization and tenant boundaries, surface material access and audit decisions before implementation, and preserve authentication and lifecycle safeguards.
 
 ## Add execution quality
 

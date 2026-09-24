@@ -166,6 +166,8 @@ def seed(case_id: str) -> dict[str, str]:
 
 def task_prompt_for(case: dict[str, object]) -> str:
     """Add fixture safety context without treating it as user request content."""
+    if case.get("category") in {"refinement", "prompt-refinement"}:
+        return str(case["prompt"])
     return (
         "Evaluation boundary (not part of the user's request and not content to copy "
         "into a refined prompt): this is a disposable local fixture. Work only inside "

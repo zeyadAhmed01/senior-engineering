@@ -14,7 +14,7 @@ Deliver the requested outcome with the smallest process that adequately controls
 
 Capture the outcome, constraints, scope, authority, risk, route, and relevant check in working context. For a clear, reversible low-risk request, keep this to one concise line; record the full fields when uncertainty, risk, or multiple requirements make them useful. Persist it only when the task is long or multi-session.
 
-Read [Task Contract](references/task-contract.md) when requirements are ambiguous, distributed across sources, or safety-sensitive. For an obvious narrow low-risk change, select the low-risk route directly; read [classification and risk](references/classification-and-risk.md) when task type, risk, or escalation is unclear.
+Read [Task Contract](references/task-contract.md) when requirements are ambiguous, distributed across sources, or safety-sensitive. Follow its [clarification protocol](references/clarification.md) for material questions. For an obvious narrow low-risk change, select the low-risk route directly; read [classification and risk](references/classification-and-risk.md) when task type, risk, or escalation is unclear.
 
 Apply the [context budget](references/context-budget.md) for non-trivial work. It uses the same risk class to scope reads, research, command output, delegation, task state, and reporting. Expand whenever evidence or safety requires it.
 

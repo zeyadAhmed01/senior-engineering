@@ -12,6 +12,8 @@ Verification is independent evidence gathering, not a restatement of implementat
 
 Extract each requirement and claimed outcome. Label inputs USER-STATED, VERIFIED, INFERRED, or UNKNOWN. For each claim, define the smallest observation that could prove or refute it.
 
+Use the Engineer [clarification protocol](../engineer/references/clarification.md) when a material UNKNOWN blocks a verification step; continue independent checks while waiting.
+
 Read [verification method](references/verification-method.md) for test selection and evidence states. Read [completion audit](references/completion-audit.md) when assessing finished work or release readiness.
 
 ## Inspect current state

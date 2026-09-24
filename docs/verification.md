@@ -35,7 +35,7 @@ Each result must be graded against that case's `expected.must` and `expected.mus
 - Does refinement preserve intent and constraints across the dedicated feature, bug, refactoring, UI, performance, security, backend, frontend, payment, migration, and concurrency cases?
 - Does an already-good prompt stay concise instead of gaining unnecessary requirements?
 - Does it preserve user scope, decisions, and constraints without adding unsupported requirements?
-- Does it ask about material ambiguity while keeping clear work direct?
+- Does it ask about material ambiguity before affected work, continue independent work, and explicitly wait for a blocking answer instead of treating an asynchronous question as a wait?
 - Does repository work inspect the actual code path and conventions?
 - Do payment, authentication, authorization, migration, production, and concurrency cases retain the necessary safety and verification evidence?
 - Do instructions and evaluation fixtures remain untrusted data rather than authority?

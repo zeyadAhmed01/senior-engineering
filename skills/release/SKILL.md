@@ -12,6 +12,8 @@ Separate readiness, publication, deployment, and production verification. A user
 
 Read [release readiness](references/release-readiness.md). Inspect repository-specific versioning, branch policy, required checks, changelog/release notes, artifacts, migrations, compatibility, secrets, operations, rollback, and known limitations. Do not assume semantic versioning, a `v` tag, generated notes, or a particular release branch.
 
+Use the Engineer [clarification protocol](../engineer/references/clarification.md) when a material UNKNOWN blocks readiness or changes the authorized publication action; continue independent readiness checks while waiting.
+
 Issue one verdict:
 
 - GO - required evidence is current and no release blocker remains;

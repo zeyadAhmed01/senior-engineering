@@ -51,7 +51,7 @@ The release has been prepared and checked on Windows. macOS and Linux installati
 
 ### Install a tagged GitHub release
 
-After this repository is public, add its GitHub marketplace source pinned to the release tag, then install the plugin:
+After the release contents are pushed and the `v1.0.0` tag is published, add its GitHub marketplace source pinned to that tag, then install the plugin:
 
 ```powershell
 codex plugin marketplace add zeyadAhmed01/senior-engineering --ref v1.0.0

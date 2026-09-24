@@ -165,6 +165,9 @@ class ContractTests(unittest.TestCase):
         self.assertIn("treat a suggested mechanism such as a lock as a hypothesis", refine)
         self.assertIn("require the user to define missing criteria", refine)
         self.assertIn("authorization and tenant boundaries", refine)
+        self.assertIn("measure the actual affected path before selecting an optimization", refine)
+        performance = " ".join(self.cases["prompt-refine-performance"]["expected"]["must"])
+        self.assertIn("measure the actual report path before selecting an optimization", performance)
 
     def test_design_workflow_names_taste_v2_product_flow_limit(self) -> None:
         design = (ROOT / "skills" / "engineer" / "references" / "design-workflow.md").read_text(encoding="utf-8")
@@ -191,6 +194,9 @@ class ContractTests(unittest.TestCase):
         self.assertIn("Dribbble", marketing)
         self.assertIn("Pinterest", fallback)
         self.assertIn("unproven", visual_verification)
+        workflow = (ROOT / "skills" / "engineer" / "references" / "design-workflow.md").read_text(encoding="utf-8")
+        self.assertIn("relevant search results are unavailable, irrelevant, or poor", workflow)
+        self.assertIn("If neither source contributes, do not invent findings", workflow)
 
     def test_evaluation_sandbox_and_environment_are_restricted(self) -> None:
         self.assertEqual(ISOLATION.SANDBOX_MODE, "permission-profile:se-eval-workspace")

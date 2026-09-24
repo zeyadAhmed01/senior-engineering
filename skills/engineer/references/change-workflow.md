@@ -7,6 +7,7 @@ For refactors, configuration, documentation, dependency, and maintenance work, s
 ## Choose the smallest coherent edit
 
 - Keep behavior preservation separate from new behavior where practical.
+- When a request pairs a specific small change with a broad, undefined add-on (for example, “modernize the whole component”), complete the concrete change and defer the add-on unless a demonstrated dependency makes it necessary and its scope is clear. Ask what outcome the broader request should achieve; do not treat it as permission to add opportunistic formatting, annotations, or refactors.
 - Avoid repository-wide mechanical churn unless the request requires it.
 - Do not update generated files by hand when a canonical generator exists.
 - For dependency changes, inspect lockfiles, compatibility, advisories, and build impact; do not change dependencies without authority.

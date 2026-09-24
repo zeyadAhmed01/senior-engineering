@@ -164,6 +164,17 @@ def seed(case_id: str) -> dict[str, str]:
         raise ValueError(f"No fixture seed for {case_id}") from error
 
 
+def task_prompt_for(case: dict[str, object]) -> str:
+    """Add fixture safety context without treating it as user request content."""
+    return (
+        "Evaluation boundary (not part of the user's request and not content to copy "
+        "into a refined prompt): this is a disposable local fixture. Work only inside "
+        "this checkout; do not access production or perform external GitHub, deployment, "
+        "or provider writes.\n\n"
+        + str(case["prompt"])
+    )
+
+
 def codex_version() -> str:
     result = subprocess.run(
         ["codex", "--version"], capture_output=True, text=True, check=False
@@ -222,14 +233,7 @@ def run_case(case: dict[str, object], fixture_root: Path, trace_root: Path, code
     env = build_codex_environment(
         dict(os.environ), codex_home=codex_home, trace_root=trace_root
     )
-    task_prompt = (
-        "This is a disposable local evaluation fixture. Work only inside this checkout. "
-        "Do not access production or perform external GitHub, deployment, or provider writes. "
-        "Screenshots and browser profiles created for this fixture are temporary evaluation artifacts; "
-        "if a tool blocks cleanup, leave them in place and continue with tests and the final diff. "
-        "Evaluate the user request using the available local evidence and preserve all applicable safety requirements.\n\n"
-        + str(case["prompt"])
-    )
+    task_prompt = task_prompt_for(case)
     command = ["codex", "exec", "--json", "--ephemeral", "--skip-git-repo-check", *eval_disabled_feature_args(), "-m", model, "-c", 'approval_policy="never"', *reasoning_effort_args(reasoning), "-C", str(fixture), "-o", str(final), task_prompt]
     with output.open("wb") as stream:
         try:

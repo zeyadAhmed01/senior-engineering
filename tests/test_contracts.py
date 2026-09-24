@@ -105,6 +105,14 @@ class ContractTests(unittest.TestCase):
         self.assertIn("$senior-engineering:refine", self.cases["refine-without-execute"]["prompt"])
         self.assertIn("$senior-engineering:release", self.cases["release-authorization"]["prompt"])
 
+    def test_runner_marks_fixture_boundary_as_not_part_of_refined_prompt(self) -> None:
+        prompt = CONTRACT_RUNNER["task_prompt_for"](
+            {"prompt": "Use $senior-engineering:refine. Add search."}
+        )
+        self.assertIn("not part of the user's request", prompt)
+        self.assertIn("not content to copy into a refined prompt", prompt)
+        self.assertTrue(prompt.endswith("Use $senior-engineering:refine. Add search."))
+
     def test_prompt_refinement_cases_cover_requested_inputs_and_boundaries(self) -> None:
         expected_ids = {
             "prompt-refine-vague-feature",

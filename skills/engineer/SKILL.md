@@ -36,9 +36,9 @@ If a request names Taste v2 for a dashboard, table, or multi-step product flow, 
 
 For medium or high-risk work, read [planning](references/planning.md). For a simple low-risk change, choose a focused check directly; read [implementation and testing](references/implementation-and-testing.md) when behavior spans components or states, test design is not obvious, or broader verification is needed.
 
-For HIGH-risk bug fixes involving authentication, money, data integrity, security, destructive state, or concurrency, a request to skip investigation does not waive a safe local causal check. Before editing, run the smallest available check against the untouched code; if none exists, add a focused reproducer and run it first. If that cannot be done safely, stop before implementation and explain the blocker. Then verify the correction at the affected state boundary.
+For HIGH-risk bug fixes involving authentication, money, data integrity, security, destructive state, or concurrency, do not edit until a safe local causal check has run against untouched code. A user's report that a test already fails is not evidence that this run's baseline was executed, and a request to skip reproduction does not waive it. Briefly explain the requirement, run the smallest available existing check (or add a focused reproducer and run it first), report its result, then implement and verify the correction at the affected state boundary. If this cannot be done safely, stop before implementation and explain the blocker.
 
-When the user asks to skip the baseline, say that you cannot skip it for a high-risk defect, run it before editing, and report its failing result. Do not treat the user's request to skip as approval to omit causal evidence or substitute post-fix-only tests.
+When the user asks to skip the baseline, say that you cannot skip it for a high-risk defect, run it before editing, and report its result. Do not treat a claimed, remembered, or requested test result as an executed baseline, or substitute post-fix-only tests.
 
 ## Preserve authority
 

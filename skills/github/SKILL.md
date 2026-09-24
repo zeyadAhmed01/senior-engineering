@@ -18,6 +18,8 @@ Read [mutation policy](references/mutation-policy.md) before any issue edit, com
 
 For any requested force-push, state that it rewrites shared branch history. Before acting, verify the exact repository and remote, target branch, local and remote SHAs, branch protection, whether other contributors' commits would be overwritten, and explicit authorization for this specific rewrite. If a required detail is unavailable, do not mutate; list the missing prerequisites and ask direct questions instead of only reporting that they are unavailable. State that you will preserve others' commits and use `--force-with-lease` only if inspection confirms a controlled rewrite is appropriate and authorized. Never use an unqualified force-push or imply a remote write can be kept inside a local checkout.
 
+If the repository or remote is missing, ask: “Which repository and remote should I inspect, and which branch should be rewritten?” State that you will first check the remote SHA, branch protection, and other contributors' commits; ask for any missing rewrite authorization; and use `--force-with-lease` only if the inspected state supports an authorized, controlled rewrite.
+
 ## Choose the workflow
 
 - Issue validation or issue-to-PR delivery: read [issue to PR](references/issue-to-pr.md).

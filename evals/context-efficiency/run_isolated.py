@@ -121,6 +121,7 @@ def run_case(case_id: str, root: Path, model: str, rtk_dir: Path, codex_home: Pa
         codex_home,
         fixture,
         user_home=Path(os.environ.get("USERPROFILE", Path.home())),
+        evaluation_root=Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData" / "Local")) / "CodexEval",
         temp_root=Path(tempfile.gettempdir()),
     )
     validate_codex_permissions(codex_home, user_home=Path(os.environ.get("USERPROFILE", Path.home())))

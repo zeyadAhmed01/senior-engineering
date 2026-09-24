@@ -202,10 +202,12 @@ def run_case(case: dict[str, object], fixture_root: Path, trace_root: Path, code
     output = trace_root / f"{case_id}.jsonl"
     final = trace_root / f"{case_id}.final.txt"
     user_home = Path(os.environ.get("USERPROFILE", Path.home()))
+    evaluation_root = Path(os.environ.get("LOCALAPPDATA", user_home / "AppData" / "Local")) / "CodexEval"
     validate_codex_home(
         codex_home,
         fixture,
         user_home=user_home,
+        evaluation_root=evaluation_root,
         temp_root=Path(tempfile.gettempdir()),
     )
     validate_codex_permissions(codex_home, user_home=user_home)

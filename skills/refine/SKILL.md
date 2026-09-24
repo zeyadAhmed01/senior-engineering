@@ -15,8 +15,8 @@ Keep the user's outcome, scope, constraints, tone, and desired deliverable. Do n
 ## Resolve ambiguity proportionately
 
 - If the prompt is already clear, tighten it without expanding it.
-- If a safe narrow assumption preserves intent, state it inside the refined prompt.
-- If one missing decision would materially change behavior, data, safety, scope, or irreversible/external action, make the refined prompt instruct the executing agent to ask that question before acting.
+- Do not turn common product conventions into requirements. Do not guess fields, matching rules, UI states, data scope, architecture, or acceptance criteria that the user did not specify.
+- If one missing decision would materially change behavior, data, safety, scope, or irreversible/external action, make the refined prompt instruct the executing agent to ask one concise question before acting. If work can proceed without deciding it, leave the choice open instead of adding a speculative assumption.
 - Do not turn optional detail into mandatory ceremony.
 
 ## Add execution quality

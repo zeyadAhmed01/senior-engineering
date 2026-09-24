@@ -159,9 +159,11 @@ class ContractTests(unittest.TestCase):
     def test_permission_profile_denies_codex_home_and_command_network(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             user_home = Path(temporary_directory) / "user"
-            codex_home = user_home / ".codex" / "eval"
+            evaluation_root = Path(temporary_directory) / "local-app-data" / "CodexEval"
+            codex_home = evaluation_root / "eval"
             codex_home.mkdir(parents=True)
             protected_home = json.dumps(str(user_home / ".codex").replace("\\", "/"))
+            protected_auth = json.dumps(str(codex_home / "auth.json").replace("\\", "/"))
             config = (
                 'default_permissions = "se-eval-workspace"\n'
                 "\n[windows]\nsandbox = \"elevated\"\n"
@@ -170,6 +172,7 @@ class ContractTests(unittest.TestCase):
                 "\n[permissions.se-eval-workspace.filesystem]\n"
                 "\":root\" = \"read\"\n\":minimal\" = \"read\"\n"
                 f"{protected_home} = \"deny\"\n"
+                f"{protected_auth} = \"deny\"\n"
                 "\n[permissions.se-eval-workspace.filesystem.\":workspace_roots\"]\n"
                 "\".\" = \"write\"\n"
                 "\n[permissions.se-eval-workspace.network]\nenabled = false\n"
@@ -183,12 +186,32 @@ class ContractTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 ISOLATION.validate_codex_permissions(codex_home, user_home=user_home)
 
-    def test_eval_codex_home_stays_outside_fixture_and_temp(self) -> None:
+    def test_eval_codex_home_is_separate_from_private_home_and_temp(self) -> None:
+        evaluation_root = Path("C:/Users/Eval/AppData/Local/CodexEval")
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            fixture = Path(temporary_directory) / "fixture"
+            valid_home = evaluation_root / "test"
+            ISOLATION.validate_codex_home(
+                valid_home,
+                fixture,
+                user_home=Path("C:/Users/Eval"),
+                evaluation_root=evaluation_root,
+                temp_root=Path("C:/Temp"),
+            )
         with self.assertRaises(ValueError):
             ISOLATION.validate_codex_home(
                 Path("C:/Temp/eval-home"),
                 Path("C:/Temp/fixture"),
                 user_home=Path("C:/Users/Eval"),
+                evaluation_root=evaluation_root,
+                temp_root=Path("C:/Temp"),
+            )
+        with self.assertRaises(ValueError):
+            ISOLATION.validate_codex_home(
+                Path("C:/Users/Eval/.codex/eval"),
+                Path("C:/Temp/fixture"),
+                user_home=Path("C:/Users/Eval"),
+                evaluation_root=evaluation_root,
                 temp_root=Path("C:/Temp"),
             )
 

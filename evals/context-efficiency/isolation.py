@@ -32,16 +32,20 @@ def validate_codex_home(
     fixture: Path,
     *,
     user_home: Path,
+    evaluation_root: Path,
     temp_root: Path,
 ) -> None:
-    """Require a dedicated CODEX_HOME outside the fixture and writable temp tree."""
+    """Require a dedicated CODEX_HOME outside private data, fixtures, and temp."""
     home = codex_home.resolve()
     fixture_root = fixture.resolve()
     private_codex_root = (user_home / ".codex").resolve()
+    private_evaluation_root = evaluation_root.resolve()
     temporary_root = temp_root.resolve()
 
-    if home == private_codex_root or not home.is_relative_to(private_codex_root):
-        raise ValueError("CODEX_HOME must be a dedicated subdirectory of the private .codex directory")
+    if home == private_codex_root or home.is_relative_to(private_codex_root):
+        raise ValueError("CODEX_HOME must be separate from the user's private .codex directory")
+    if home == private_evaluation_root or not home.is_relative_to(private_evaluation_root):
+        raise ValueError("CODEX_HOME must be a dedicated subdirectory of the evaluation-only root")
     if home.is_relative_to(temporary_root):
         raise ValueError("CODEX_HOME must not be stored under a sandbox-writable temporary directory")
     if home == fixture_root or home.is_relative_to(fixture_root) or fixture_root.is_relative_to(home):
@@ -49,7 +53,7 @@ def validate_codex_home(
 
 
 def validate_codex_permissions(codex_home: Path, *, user_home: Path) -> None:
-    """Require fixture-scoped writes, no command network, and a blocked Codex home."""
+    """Require fixture writes, no command network, and blocked credential stores."""
     config_path = codex_home / "config.toml"
     if not config_path.is_file():
         raise ValueError("The isolated CODEX_HOME must define its sandbox permission profile")
@@ -65,6 +69,7 @@ def validate_codex_permissions(codex_home: Path, *, user_home: Path) -> None:
     workspace_roots = filesystem.get(":workspace_roots", {})
     network = profile.get("network", {})
     protected_codex_home = str((user_home / ".codex").resolve()).replace("\\", "/").casefold()
+    protected_eval_auth = str((codex_home / "auth.json").resolve()).replace("\\", "/").casefold()
     denied_paths = {
         str(path).replace("\\", "/").casefold(): access
         for path, access in filesystem.items()
@@ -77,6 +82,8 @@ def validate_codex_permissions(codex_home: Path, *, user_home: Path) -> None:
         raise ValueError("The native Windows permission profile must retain required root and toolchain reads")
     if denied_paths.get(protected_codex_home) != "deny":
         raise ValueError("The evaluation permission profile must deny reads from the user's .codex directory")
+    if denied_paths.get(protected_eval_auth) != "deny":
+        raise ValueError("The evaluation permission profile must deny reads from its authentication file")
     if workspace_roots.get(".") != "write":
         raise ValueError("The evaluation permission profile must allow writes through the active workspace root")
     if network.get("enabled") is not False:

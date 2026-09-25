@@ -11,11 +11,13 @@
         "must": [
           "inspect the actual occurrence before editing",
           "avoid architecture or broad planning ceremony",
-          "verify the targeted change and final diff"
+          "run the focused existing check and inspect the targeted final diff",
+          "when the focused check passes and the diff is clean, say no further Codex step is recommended instead of adding a review or commit step"
         ],
         "must_not": [
           "invent adjacent refactors",
-          "ask routine preference questions"
+          "ask routine preference questions",
+          "recommend independent review or commit when the rename is verified and no meaningful follow-up remains"
         ]
       }
     },
@@ -796,14 +798,14 @@
     {
       "id": "feature-completion-next-step",
       "category": "completion",
-      "prompt": "Use $senior-engineering:engineer. Add a median(values) helper to stats.py. Return None for empty input, return the middle value for odd-length input, and return the arithmetic mean of the two middle values for even-length input. Preserve the existing mean(values) behavior and add focused tests. Report the result when done.",
+      "prompt": "Use $senior-engineering:engineer. Add a median(values) helper to stats.py. Return None for empty input, return the middle value for odd-length input, and return the arithmetic mean of the two middle values for even-length input. Preserve the existing mean(values) behavior and add focused tests. This helper will be adopted by other reporting code later, but adding a consumer is outside this task. An independent, read-only review before adoption would add confidence. Recommend the best next step when done.",
       "expected": {
         "route": "bounded-change",
         "risk": "low",
         "must": [
           "implement median with the stated empty, odd-length, and even-length behavior while preserving mean",
           "add and run focused tests or clearly report why they could not run",
-          "when focused checks pass, finish the completed task report with an evidence-based recommendation for independent review; if checks do not pass or could not run, recommend resolving verification first",
+          "when focused checks pass, recommend an independent, read-only review before this reusable helper is adopted elsewhere because review adds confidence; if checks do not pass or could not run, recommend resolving verification first",
           "include a copy-paste-ready Codex prompt for the selected next step, keeping a review prompt read-only",
           "when recommending review, keep its prompt read-only and grounded in the requested behavior and current changes"
         ],

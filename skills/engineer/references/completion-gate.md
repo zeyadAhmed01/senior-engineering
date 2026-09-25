@@ -25,13 +25,13 @@ Final reports lead with the outcome, then changed behavior, exact verification, 
 
 Every final response that reports a workflow outcome—complete, partial, failed, or blocked—ends with one evidence-based next step. Name why it is the best next action from the current state, then include a copy/paste-ready prompt the user can send to Codex to do that step.
 
-- Choose from the actual outcome and remaining evidence. After a feature is implemented and its focused checks pass, an independent review is often the best next step. If checks are missing or failing, recommend completing or fixing verification first. After a review finds issues, recommend addressing those findings rather than repeating the review.
+- Choose from the actual outcome, risk, user's goal, and remaining evidence. Recommend an independent, read-only review before commit when it would materially improve confidence, especially for medium/high-risk changes or meaningful unresolved correctness or regression concerns. For a narrow, low-risk change whose focused check and diff establish the request, do not manufacture a review or commit step; say no further Codex step is recommended if none is warranted. If checks are missing or failing, recommend completing or fixing verification first. After a review finds issues, recommend addressing those findings rather than repeating the review.
 - Keep the prompt bounded to that one next step. Carry forward the user's requirements, relevant files or current diff, known verification, and constraints. Use the relevant `senior-engineering` skill when applicable.
 - Do not invent acceptance criteria, repeat work already completed, imply an unperformed check passed, or grant authority for edits, destructive actions, or external writes that the user has not authorized.
 - If no meaningful follow-up is warranted, say that no further Codex step is recommended instead of manufacturing work. A prompt is needed only when there is an actionable recommendation. Do not add this section to progress updates or a response that is still waiting for a clarification answer.
 - For `refine`, the refined prompt itself is the recommended next step and ready-to-send prompt. Preserve its output-only contract; do not append a second recommendation.
 
-Example after a feature implementation and passing focused checks:
+Example when independent review is the best next step after a feature implementation and passing focused checks:
 
 **Recommended next step:** Get an independent review of the feature for regressions before extending it.
 
